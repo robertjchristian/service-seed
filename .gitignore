@@ -1,3 +1,8 @@
+# Don't commit logs or deployed webapps #
+#########################################
+apache-tomcat-*/logs/**
+apache-tomcat-*/webapps/**
+
 # Compiled source #
 ###################
 *.com
