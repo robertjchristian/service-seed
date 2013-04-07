@@ -1,5 +1,6 @@
-# Don't commit logs or deployed webapps #
-#########################################
+# Don't commit logs or build/deploy artifacts #
+###############################################
+karyon-examples/hello-netflix-oss/build/
 apache-tomcat-*/logs/**
 apache-tomcat-*/webapps/**
 
