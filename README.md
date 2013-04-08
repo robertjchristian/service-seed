@@ -1,15 +1,24 @@
 service-seed
 ======
 
-Fork of Netflix/karyon
+Fork of Netflix/karyon...
+
+Karyon can be thought of as the nucleus of a blueprint that contains the following main ingredients.
+
+Bootstrapping , Libraries and Lifecycle Management (via NetflixOSS's Governator)
+Runtime Insights and Diagnostics (via built in Admin Console)
+Pluggable Web Resources (via JSR-311 and Jersey)
+Cloud Ready
 
 history
 =====
 
 * Added apache-tomcat
- * Modified catalina.sh to include app and env properties
+ * Added a manager-gui role (user/pass=admin/admin)
 * Added a deploy task to build.gradle which copies the war to apache's webapps root
-* Added a ./run.sh script to launch tomcat
+* Added ./run.sh and ./run.cmd scripts to launch tomcat
+* Modified gradle.properties to use daemon
+* Changed namespace of hello-world
 
 to use
 ====
