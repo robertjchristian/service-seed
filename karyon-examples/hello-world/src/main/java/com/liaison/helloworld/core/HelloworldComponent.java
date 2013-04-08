@@ -14,30 +14,20 @@
  *      limitations under the License.
  */
 
-package com.netflix.hellonoss.server.health;
+package com.liaison.helloworld.core;
 
-import com.netflix.karyon.spi.HealthCheckHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.netflix.karyon.spi.Component;
 
 import javax.annotation.PostConstruct;
 
 /**
  * @author Nitesh Kant (nkant@netflix.com)
  */
-public class HealthCheck implements HealthCheckHandler {
-
-    private static final Logger logger = LoggerFactory.getLogger(HealthCheck.class);
+@Component
+public class HelloworldComponent {
 
     @PostConstruct
-    public void init() {
-        logger.info("Health check initialized.");
-    }
-
-    @Override
-    public int getStatus() {
-        // TODO: Health check logic.
-        logger.info("Health check invoked.");
-        return 200;
+    public void initialize() {
+        // TODO: Initialization logic, eg: connection to DB etc.
     }
 }

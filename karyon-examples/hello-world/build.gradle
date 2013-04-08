@@ -35,7 +35,7 @@ dependencies {
 
 jettyRun.doFirst {
     // use the default port of the ws-backend-simulation module
-    System.setProperty("archaius.deployment.applicationId","hello-netflix-oss")
+    System.setProperty("archaius.deployment.applicationId","hello-world")
     System.setProperty("archaius.deployment.environment","dev")
 }
 

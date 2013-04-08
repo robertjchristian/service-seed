@@ -13,21 +13,20 @@
  *      See the License for the specific language governing permissions and
  *      limitations under the License.
  */
+package com.liaison.helloworld.core;
 
-package com.netflix.hellonoss.core;
-
-import com.netflix.karyon.spi.Component;
+import com.netflix.karyon.spi.Application;
 
 import javax.annotation.PostConstruct;
 
 /**
  * @author Nitesh Kant (nkant@netflix.com)
  */
-@Component
-public class HelloworldComponent {
+@Application
+public class HelloworldApplication {
 
     @PostConstruct
     public void initialize() {
-        // TODO: Initialization logic, eg: connection to DB etc.
+        //TODO: Initialization if any.
     }
 }
