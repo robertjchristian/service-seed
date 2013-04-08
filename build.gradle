@@ -96,8 +96,15 @@ project(':karyon-admin-web') {
     }
 }
 
+// TODO doesn't work
+task deleteDeployed(type: Delete) {
+  ext.toDelete = 'apache-tomcat-7.0.39/webapps/hello-world*'
+  println 'Deleting ' + ext.toDelete
+  delete (ext.toDelete)
+}
+
 // custom tasks (move to example?)
-task deploy() << {
+task deploy(depends:deleteDeployed) << {
      
     // TODO pull from env
     ext.deployFrom = "./karyon-examples/hello-world/build/libs/"
