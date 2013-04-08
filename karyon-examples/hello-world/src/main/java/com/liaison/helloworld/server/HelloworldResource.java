@@ -14,7 +14,7 @@
  *      limitations under the License.
  */
 
-package com.netflix.hellonoss.server;
+package com.liaison.helloworld.server;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -39,7 +39,7 @@ public class HelloworldResource {
     public Response helloTo(@PathParam("name") String name) {
         JSONObject response = new JSONObject();
         try {
-            response.put("Message", "Hello " + name + " from Netflix OSS");
+            response.put("Message", "Hello " + name + " from Liaison");
             return Response.ok(response.toString()).build();
         } catch (JSONException e) {
             logger.error("Error creating json response.", e);
@@ -52,7 +52,7 @@ public class HelloworldResource {
     public Response hello() {
         JSONObject response = new JSONObject();
         try {
-            response.put("Message", "Hello Netflix OSS component!");
+            response.put("Message", "Hello Liaison component!");
             return Response.ok(response.toString()).build();
         } catch (JSONException e) {
             logger.error("Error creating json response.", e);
