@@ -100,7 +100,7 @@ project(':karyon-admin-web') {
 task deploy() << {
      
     // TODO pull from env
-    ext.deployFrom = "./karyon-examples/hello-netflix-oss/build/libs/"
+    ext.deployFrom = "./karyon-examples/hello-world/build/libs/"
     //ext.deployTo = "$System.env.CATALINA_HOME" + 'webapps'
     ext.deployTo = "./apache-tomcat-7.0.39/webapps"
 

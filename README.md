@@ -23,6 +23,6 @@ links
 ====
 
 * Once tomcat is started...
- * Static REST service endpoint:  http://localhost:8080/hello-netflix-oss-1.0.6-SNAPSHOT/rest/v1/hello/to/newbee
- * Dynamic REST service endpoint:  http://localhost:8080/hello-netflix-oss-1.0.6-SNAPSHOT/rest/v1/hello/
+ * Static REST service endpoint:  http://localhost:8080/hello-world-1.0.6-SNAPSHOT/rest/v1/hello/to/newbee
+ * Dynamic REST service endpoint:  http://localhost:8080/hello-world-1.0.6-SNAPSHOT/rest/v1/hello/
  * Web admin console:  http://localhost:8077/adminres/webadmin/index.html
