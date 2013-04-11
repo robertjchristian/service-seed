@@ -1,9 +1,9 @@
-karyon-examples
+service-seed
 ======
 
-This module provides examples to get started with karyon.
+This module provides a simple hello world seed to get started building Liaison G2 services
 
-Hello Netflix OSS
+hello world
 ===============
 
-This is the simplest example of karyon using guice and jersey.
+This is the simplest example of a service seed using guice and jersey.
