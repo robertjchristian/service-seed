@@ -1,2 +1,3 @@
-tar -zxvf apache-tomcat-7.0.39.tar.gz
+tar -zxvf *apache-tomcat*.tar.gz
+rm *apache-tomcat*.tar.gz
 
