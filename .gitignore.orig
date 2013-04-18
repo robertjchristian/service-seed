@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Don't commit logs or build/deploy artifacts #
 ###############################################
 karyon-examples/hello-world/build/
@@ -6,6 +7,8 @@ apache-tomcat-7.0.39
 apache-tomcat-*/logs/**
 apache-tomcat-*/webapps/**
 
+=======
+>>>>>>> build/multi-project
 # Compiled source #
 ###################
 *.com
@@ -21,7 +24,10 @@ apache-tomcat-*/webapps/**
 # git has its own built in compression methods
 *.7z
 *.dmg
+<<<<<<< HEAD
+=======
 *.gz
+>>>>>>> build/multi-project
 *.iso
 *.jar
 *.rar
@@ -42,7 +48,10 @@ Thumbs.db
 # Editor Files #
 ################
 *~
+<<<<<<< HEAD
+=======
 *.swp
+>>>>>>> build/multi-project
 
 # Gradle Files #
 ################
@@ -70,6 +79,9 @@ atlassian-ide-plugin.xml
 
 # NetBeans specific files/directories
 .nbattrs
+<<<<<<< HEAD
 
 *.class
 *.log
+=======
+>>>>>>> build/multi-project

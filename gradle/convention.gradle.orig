@@ -1,12 +1,42 @@
+<<<<<<< HEAD
+
+/*
+ * Copyright 2013 Netflix, Inc.
+ *
+ *      Licensed under the Apache License, Version 2.0 (the "License");
+ *      you may not use this file except in compliance with the License.
+ *      You may obtain a copy of the License at
+ *
+ *          http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *      Unless required by applicable law or agreed to in writing, software
+ *      distributed under the License is distributed on an "AS IS" BASIS,
+ *      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *      See the License for the specific language governing permissions and
+ *      limitations under the License.
+ */
+
+// For Artifactory
+rootProject.status = version.contains('-SNAPSHOT')?'snapshot':'release'
+=======
 // GRADLE-2087 workaround, perform after java plugin
 status = project.hasProperty('preferredStatus')?project.preferredStatus:(version.contains('SNAPSHOT')?'snapshot':'release')
+>>>>>>> build/multi-project
 
 subprojects { project ->
     apply plugin: 'java' // Plugin as major conventions
 
+<<<<<<< HEAD
+    version = rootProject.version
+
+    sourceCompatibility = 1.6
+
+    // GRADLE-2087 workaround, perform after java plugin
+=======
     sourceCompatibility = 1.6
 
     // Restore status after Java plugin
+>>>>>>> build/multi-project
     status = rootProject.status
 
     task sourcesJar(type: Jar, dependsOn:classes) {
@@ -48,6 +78,12 @@ subprojects { project ->
         }
     }
 
+<<<<<<< HEAD
+    // Ensure output is on a new line
+    javadoc.doFirst { println "" }
+
+=======
+>>>>>>> build/multi-project
     configurations {
         provided {
             description = 'much like compile, but indicates you expect the JDK or a container to provide it. It is only available on the compilation classpath, and is not transitive.'
@@ -64,6 +100,13 @@ subprojects { project ->
     }
 }
 
+<<<<<<< HEAD
+task aggregateJavadoc(type: Javadoc) {
+    description = 'Aggregate all subproject docs into a single docs directory'
+    source subprojects.collect {project -> project.sourceSets.main.allJava }
+    classpath = files(subprojects.collect {project -> project.sourceSets.main.compileClasspath})
+    destinationDir = new File(projectDir, 'doc')
+=======
 apply plugin: 'github-pages' // Used to create publishGhPages task
 
 def docTasks = [:]
@@ -92,9 +135,14 @@ githubPages {
             }
         }
     }
+>>>>>>> build/multi-project
 }
 
 // Generate wrapper, which is distributed as part of source to alleviate the need of installing gradle
 task createWrapper(type: Wrapper) {
+<<<<<<< HEAD
+    gradleVersion = '1.1'
+=======
     gradleVersion = '1.5'
+>>>>>>> build/multi-project
 }
