@@ -30,11 +30,8 @@ subprojects {
         compile 'org.slf4j:slf4j-api:1.6.4'
         compile 'com.google.guava:guava:11.0.2'
         compile 'javax.ws.rs:jsr311-api:1.1.1'
-        compile 'com.sun.jersey:jersey-core:1.11'
         testCompile 'junit:junit:4.10'
         testRuntime 'org.slf4j:slf4j-simple:1.7.0'
-        testCompile 'org.testng:testng:6.1.1'
-        testCompile 'org.mockito:mockito-core:1.8.5'
     }
 }
 
@@ -57,7 +54,6 @@ project(':karyon-eureka') {
 }
 
 project(':karyon-core') {
-    apply plugin: 'java'
     dependencies {
         compile project(':karyon-eureka')
         compile 'commons-collections:commons-collections:3.2.1'
@@ -74,8 +70,6 @@ project(':karyon-extensions') {
 }
 
 project(':karyon-admin') {
-    apply plugin: 'war'
-    apply plugin: 'jetty'
     dependencies {
         compile project(':karyon-core')
         compile 'org.eclipse.jetty:jetty-server:7.6.7.v20120910'
