@@ -109,3 +109,6 @@ task deploy(depends:deleteDeployed) << {
     }
 
 }
+
+def sonatypeUsername = ''
+def sonatypePassword = ''
