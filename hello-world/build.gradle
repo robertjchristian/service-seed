@@ -6,10 +6,6 @@ buildscript {
     apply from: file('../gradle/buildscript.gradle'), to: buildscript
 }
 
-allprojects {
-    repositories { mavenCentral() }
-}
-
 apply from: file('../gradle/convention.gradle')
 apply from: file('../gradle/maven.gradle')
 apply from: file('../gradle/check.gradle')
@@ -27,8 +23,6 @@ war {
 }
 
 dependencies {
-    compile 'org.slf4j:slf4j-api:1.7.0'
-    runtime 'org.slf4j:slf4j-simple:1.7.0'
     compile "com.netflix.karyon:karyon-extensions:${karyonVersion}"
     compile "com.netflix.karyon:karyon-admin-web:${karyonVersion}"
 }
