@@ -14,5 +14,5 @@
  *      limitations under the License.
  */
 
-rootProject.name='karyon'
-include 'karyon-spi','karyon-eureka','karyon-core','karyon-extensions', 'karyon-admin', 'karyon-admin-web', 'karyon-examples:hello-world'
+rootProject.name='service-seed'
+include 'karyon-admin', 'karyon-admin-web', 'hello-world'
