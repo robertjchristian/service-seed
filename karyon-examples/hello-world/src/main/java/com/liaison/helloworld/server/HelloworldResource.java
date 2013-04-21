@@ -25,69 +25,10 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import javax.script.*;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.TreeMap;
-
-
 @Path("/hello")
 public class HelloworldResource {
 
     private static final Logger logger = LoggerFactory.getLogger(HelloworldResource.class);
-
-    // curl -H "Content-Type: application/json" --data-asc80/hello-world-1.0.16-SNAPSHOT/rest/v1/hello/dyn
-
-    @Path("dyn/{service}")
-    @POST
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response dyn(@PathParam("service") String service, JSONObject json) {
-        JSONObject response = new JSONObject();
-        try {
-            response.put("Service", service);
-            response.put("JSON", json);
-            response.put("Foo", "bar");
-
-            // read js
-            InputStream in = this.getClass().getResourceAsStream("/hello.js");
-            InputStreamReader reader = new InputStreamReader(in);
-
-            // setup engine
-            ScriptEngineManager mgr = new ScriptEngineManager();
-            ScriptEngine engine = mgr.getEngineByName("JavaScript");
-
-            // inject bindings
-            //Bindings bindings = jsEngine.createBindings();
-            //bindings.put("_returnValue", null);
-
-
-
-            try {
-
-                // evaluate the script
-                engine.eval (reader);
-
-                // TODO inject bfg
-
-                logger.error("Running JS...");
-
-                Object ret = ((Invocable) engine).invokeFunction("run", "3", "1");
-
-                logger.error("retVal is " + ret);
-
-                response.put("ret", ret);
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-
-            return Response.ok(response.toString()).build();
-        } catch (JSONException e) {
-            logger.error("Error creating json response.", e);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
-    }
 
     @Path("to/{name}")
     @GET
