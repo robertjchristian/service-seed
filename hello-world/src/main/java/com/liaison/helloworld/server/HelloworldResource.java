@@ -28,6 +28,7 @@ import javax.ws.rs.core.Response;
 import javax.script.*;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.TreeMap;
 
 
@@ -51,7 +52,10 @@ public class HelloworldResource {
 
             // read js
             InputStream in = this.getClass().getResourceAsStream("/hello.js");
-            InputStreamReader reader = new InputStreamReader(in);
+            InputStreamReader reader = null;
+            try {
+                reader = new InputStreamReader(in, "UTF-8");
+            } catch (UnsupportedEncodingException uee) {} // NOPMD - tells PMD to ignore this violation because "UTF-8" is valid
 
             // setup engine
             ScriptEngineManager mgr = new ScriptEngineManager();

@@ -15,4 +15,4 @@
  */
 
 rootProject.name='service-seed'
-'karyon-admin', 'karyon-admin-web', include 'hello-world'
+include 'karyon-admin', 'karyon-admin-web', 'hello-world'
