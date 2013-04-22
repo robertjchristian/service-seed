@@ -30,7 +30,7 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.0'
     runtime 'org.slf4j:slf4j-simple:1.7.0'
     compile "com.netflix.karyon:karyon-extensions:${karyonVersion}"
-    compile "com.netflix.karyon:karyon-admin-web:${karyonVersion}"
+    compile project(':karyon-admin-web')
 }
 
 jettyRun.doFirst {
