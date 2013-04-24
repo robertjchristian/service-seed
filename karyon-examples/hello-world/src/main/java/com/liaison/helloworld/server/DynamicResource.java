@@ -25,9 +25,8 @@ public class DynamicResource {
 
     private static final Logger logger = LoggerFactory.getLogger(DynamicResource.class);
 
-    // Tomcat:  curl -H "Content-Type: application/json" --data-ascii "4" http://localhost:8080/hello-world-1.0.16-SNAPSHOT/rest/v1/dyn/add
-
-    // Jetty:   curl -H "Content-Type: application/json" --data-ascii "4" http://localhost:8989/hello-world/rest/v1/dyn/add
+    // Tomcat:  curl -H "Content-Type: application/json" --data-ascii "{}" http://localhost:8080/hello-world-1.0.16-SNAPSHOT/rest/v1/dyn/add
+    // Jetty:   curl -H "Content-Type: application/json" --data-ascii "{}" http://localhost:8989/hello-world/rest/v1/dyn/add
 
     private HashMap<String, String> endpoints = new HashMap<String, String>();
 
