@@ -1,2 +1,53 @@
+# -------------------
+# API definitions:
+# -------------------
+# service-name:  will be used to construct final endpoint URI
+# service-description:  friendly description
+# support-contact:  an email address indicating the support contact
+# script location:  a URI reference to the script.  scripts can be resolved using fs2, classpath, and ...
+# script-includes:  additional scripts to be evaluated (using eval()) prior to invoking the specified operation
 
-/dyn/math-service/[add|subtract] => /service-scripts/examples/math
+# -------------------
+# Routes and WADL:
+# -------------------
+# Between implicitly made assumptions and additional service data specified below, we are able to:
+#  * Map a RESTFul web request to a specific Javascript function call
+#  * Pass payload or query parameters to the function call
+#  * White-list valid HTTP methods and JavaScript functions
+#  * Dynamically generate a WADL at Runtime (and via simple tooling)
+
+[
+    {
+        "service-name": "math-service",
+        "service-description": "performs advanced mathematical operations such as multiply and divide",
+        "support-contact": "rchristian@liaison.com",
+        "script-location": "classpath://service-scripts/examples/math",
+        "operations": [
+            {
+                "multiply": "GET",
+                "divide": "GET"
+            }
+        ]
+    },
+    {
+        "service-name": "crud-foo",
+        "service-description": "create, read, update, delete, and list persisted entities of type foo",
+        "support-contact": "support@seattle.liaison.com",
+        "script-location": "fs2://service-scripts/examples/really/loooooong/path/crudfoo.js",
+        "payload-xsd": "path/to/xsd",
+        "script-includes": [
+            {
+                "classloader": "/scripts/includes/localization.js"
+            }
+        ],
+        "operations": [
+            {
+                "create": "POST",
+                "read": "GET",
+                "update": "PUT",
+                "delete": "DELETE",
+                "exists": "HEAD"
+            }
+        ]
+    }
+]
