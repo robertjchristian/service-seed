@@ -24,18 +24,18 @@ subprojects {
     }
 
     // FindBugs
-    apply plugin: 'findbugs'
-    tasks.withType(FindBugs) { 
-        reports.html.enabled true 
-        reports.xml.enabled false
-    }
+    //apply plugin: 'findbugs'
+    //tasks.withType(FindBugs) { 
+    //    reports.html.enabled true 
+    //    reports.xml.enabled false
+    //}
 
     // PMD
-    apply plugin: 'pmd'
-    tasks.withType(Pmd) { 
-        reports.html.enabled true 
-        reports.xml.enabled false
-    }
+    //apply plugin: 'pmd'
+    //tasks.withType(Pmd) { 
+    //    reports.html.enabled true 
+    //    reports.xml.enabled false
+    //}
 
     apply plugin: 'cobertura'
     cobertura {
