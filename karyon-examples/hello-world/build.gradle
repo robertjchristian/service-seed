@@ -29,8 +29,32 @@ war {
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.0'
     runtime 'org.slf4j:slf4j-simple:1.7.0'
-    compile project(':karyon-extensions')
-    compile project(':karyon-admin-web')
+
+	compile "com.netflix.karyon:karyon-core:1.0.16"
+	compile "com.netflix.karyon:karyon-eureka:1.0.16"
+	compile "com.netflix.karyon:karyon-extensions:1.0.16"
+	compile "com.netflix.karyon:karyon-spi:1.0.16"
+	compile "com.netflix.karyon:karyon-admin:1.0.16"
+	compile "com.netflix.karyon:karyon-admin-web:1.0.16"
+	
+	compile 'org.codehaus.jettison:jettison:1.3.3'
+	
+    // APACHE CXF
+    compile 'org.apache.cxf:cxf-rt-frontend-jaxrs:2.7.3'
+    compile 'org.apache.cxf:cxf-bundle-minimal:2.7.3'
+    
+    // JACKSON 1.9.x (2.x would supplant these w/ different name spaces)
+    compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.12'
+    compile 'org.codehaus.jackson:jackson-core-asl:1.9.12'
+    compile 'org.codehaus.jackson:jackson-jaxrs:1.9.12'
+    compile 'org.codehaus.jackson:jackson-xc:1.9.12'
+    compile 'org.codehaus.jackson:jackson-core-lgpl:1.9.12'
+    compile 'org.codehaus.jackson:jackson-mapper-lgpl:1.9.12'
+    compile 'org.codehaus.jackson:jackson-smile:1.9.12'
+    compile 'org.codehaus.jackson:jackson-mrbean:1.9.12'
+    
+    // SPRING
+    compile 'org.springframework:spring-web:3.0.7.RELEASE'
 }
 
 jettyRun.doFirst {
