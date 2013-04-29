@@ -8,7 +8,7 @@ export RM_LOGS_CMD="rm $CATALINA_HOME/logs/*"
 echo "Executing $RM_LOGS_CMD"
 $RM_LOGS_CMD
 
-export WAR_SOURCE="$PWD/karyon-examples/hello-world/build/libs/*.war"
+export WAR_SOURCE="$PWD/hello-world/build/libs/*.war"
 export WAR_DEST="$CATALINA_HOME/webapps"
 export RM_WAR_CMD="rm $WAR_DEST/*.war"
 echo "Executing $RM_WAR_CMD"
