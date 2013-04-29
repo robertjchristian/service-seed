@@ -1,4 +1,15 @@
 # -------------------
+# Requirements
+# -------------------
+No Jersey
+todo  Add a simple JSON service with no schema
+
+# -------------------
+# Assumptions
+# -------------------
+# Assumption that payload sizes are reasonable to be consumed in memory (no streaming).  Reason being is that, for now, dynamic services will be consumed after the initial payload
+
+# -------------------
 # API definitions:
 # -------------------
 # service-name:  will be used to construct final endpoint URI
@@ -17,37 +28,55 @@
 #  * Dynamically generate a WADL at Runtime (and via simple tooling)
 
 [
+
     {
-        "service-name": "math-service",
-        "service-description": "performs advanced mathematical operations such as multiply and divide",
-        "support-contact": "rchristian@liaison.com",
-        "script-location": "classpath://service-scripts/examples/math",
+        "base-uri": "/rest/v1/math",
+        "description": "performs advanced mathematical operations such as multiply and divide on integers a and b",
+        "author": "rchristian@liaison.com",
+        "script-location": "classpath://service-scripts/examples/math.js",
+        "query-params": [
+                    {
+                        "a": "Integer",
+                        "b": "Integer"
+                    }
+                ]
+
         "operations": [
-            {
-                "multiply": "GET",
-                "divide": "GET"
-            }
-        ]
+                    {
+                        "multiply": "GET",
+                        "divide": "GET"
+                    }
+                ]
     },
+
+
+
     {
-        "service-name": "crud-foo",
-        "service-description": "create, read, update, delete, and list persisted entities of type foo",
-        "support-contact": "support@seattle.liaison.com",
-        "script-location": "fs2://service-scripts/examples/really/loooooong/path/crudfoo.js",
-        "payload-xsd": "path/to/xsd",
+
+        "base-uri": "/rest/v3/crud",
+        "description": "create, read, update, delete, and list persisted entities of type foo",
+        "author": "dev@seattle.liaison.com",
+        "script-location": "fs2://service-scripts/examples/really/long/path/crud/foo.js",
+        "accept-content": "application/xml",
+        "request-xsd": classpath://path/to/schema-in.xsd",
+        "response-xsd": classpath://path/to/schema-out.xsd",
+
         "script-includes": [
             {
-                "classloader": "/scripts/includes/localization.js"
+                "classpath://scripts/includes/localization.js",
+                "classpath://scripts/includes/utils.js"
             }
         ],
+
         "operations": [
             {
-                "create": "POST",
-                "read": "GET",
-                "update": "PUT",
-                "delete": "DELETE",
-                "exists": "HEAD"
+                "foo": "PUT",
+                "foo": "GET",
+                "foo": "POST",
+                "foo": "DELETE",
+                "foo": "HEAD"
             }
         ]
     }
 ]
+
