@@ -32,10 +32,8 @@
 
     <servlet-mapping>
         <servlet-name>DynamicServices</servlet-name>
-        <url-pattern>/dyn</url-pattern>
+        <url-pattern>/dyn/*</url-pattern>
     </servlet-mapping>
-
-
 
 
     <filter>

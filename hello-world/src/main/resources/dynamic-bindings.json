@@ -1,0 +1,32 @@
+[
+    {
+        "about": {
+            "author": "rchristian@liaison.com",
+            "description": "performs advanced mathematical operations such as multiply and divide"
+        },
+        "base-uri": "/v1/math",
+        "operations": {
+            "divide/{a}/{b}": "GET",
+            "multiply/{a}/{b}": "GET"
+        },
+        "script-location": "classpath: //service-scripts/examples/math.js"
+    },
+    {
+        "about": {
+            "author": "seattle-dev@liaison.com",
+            "description": "performs crud operations on resource foo"
+        },
+        "base-uri": "/v3/",
+        "operations": {
+            "foo": "GET",
+            "foo/{id}": [
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "HEAD"
+            ]
+        },
+        "script-location": "classpath: //service-scripts/examples/math.js"
+    }
+]
