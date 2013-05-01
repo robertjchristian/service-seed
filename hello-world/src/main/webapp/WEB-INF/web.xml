@@ -23,6 +23,21 @@
         <url-pattern>/rest/v1/*</url-pattern>
     </servlet-mapping>
 
+
+
+    <servlet>
+        <servlet-name>DynamicServices</servlet-name>
+        <servlet-class>com.liaison.helloworld.server.dynamic.DynamicServicesServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DynamicServices</servlet-name>
+        <url-pattern>/dyn</url-pattern>
+    </servlet-mapping>
+
+
+
+
     <filter>
         <filter-name>guiceFilter</filter-name>
         <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
