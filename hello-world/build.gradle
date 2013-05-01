@@ -41,4 +41,7 @@ jettyRun.doFirst {
 
 jettyRun {
     httpPort = 8989
+    reload = 'automatic'
+    scanIntervalSeconds = 2
+    daemon = false 
 }
