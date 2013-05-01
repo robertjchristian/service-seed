@@ -37,62 +37,6 @@ public class HelloworldResource {
 
     private static final Logger logger = LoggerFactory.getLogger(HelloworldResource.class);
 
-    // curl -H "Content-Type: application/json" --data-asc80/hello-world-1.0.16-SNAPSHOT/rest/v1/hello/dyn
-
-    @Path("dyn/{service}")
-    @POST
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response dyn(@PathParam("service") String service, JSONObject json) {
-        JSONObject response = new JSONObject();
-        try {
-            response.put("Service", service);
-            response.put("JSON", json);
-            response.put("Foo", "bar");
-
-            // read js
-            InputStream in = this.getClass().getResourceAsStream("/hello.js");
-            InputStreamReader reader = null;
-            try {
-                reader = new InputStreamReader(in, "UTF-8");
-            } catch (UnsupportedEncodingException uee) {} // NOPMD - tells PMD to ignore this violation because "UTF-8" is valid
-
-            // setup engine
-            ScriptEngineManager mgr = new ScriptEngineManager();
-            ScriptEngine engine = mgr.getEngineByName("JavaScript");
-
-            // inject bindings
-            //Bindings bindings = jsEngine.createBindings();
-            //bindings.put("_returnValue", null);
-
-
-
-            try {
-
-                // evaluate the script
-                engine.eval (reader);
-
-                // TODO inject bfg
-
-                logger.error("Running JS...");
-
-                Object ret = ((Invocable) engine).invokeFunction("run", "3", "1");
-
-                logger.error("retVal is " + ret);
-
-                response.put("ret", ret);
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-
-            return Response.ok(response.toString()).build();
-        } catch (JSONException e) {
-            logger.error("Error creating json response.", e);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
     @Path("to/{name}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -112,11 +56,12 @@ public class HelloworldResource {
     public Response hello() {
         JSONObject response = new JSONObject();
         try {
-            response.put("Message", "Hello Liaison component!");
+            response.put("Message", "Hello Friend!");
             return Response.ok(response.toString()).build();
         } catch (JSONException e) {
             logger.error("Error creating json response.", e);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 }
