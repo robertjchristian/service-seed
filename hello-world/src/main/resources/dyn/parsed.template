@@ -1,0 +1,20 @@
+<h3>{{binding-title}}</h3>
+
+<table class="table table-striped table-bordered">
+
+
+<tr>
+<td><b>Meta</b></td>
+</tr>
+<tr><td>Written by</td><td>{{written-by}}</td>
+<tr><td>Description</td><td>{{description}}</td>
+
+<tr>
+<td><b>Access</b></td>
+</tr>
+<tr><td>Base URI</td><td>{{base-uri}}</td>
+<tr><td>Script location</td><td>{{script-location}}</td>
+
+{{operation-rows}}
+
+</table>

@@ -1,0 +1,52 @@
+{
+    "bindings": [
+        {
+            "about": {
+                "author": "rchristian@liaison",
+                "description": "simple math service"
+            },
+            "operations": [
+                {
+                    "operationUrl": "multiply/{a}/{b}",
+                    "allowedMethods": [
+                        "GET",
+                        "POST"
+                    ]
+                },
+                {
+                    "operationUrl": "divide/{a}/{b}",
+                    "allowedMethods": [
+                        "GET",
+                        "POST"
+                    ]
+                }
+            ],
+            "baseURI": "/v1/math",
+            "scriptLocation": "classpath://scripts/crud/foo.js"
+        },
+        {
+            "about": {
+                "author": "rchristian@liaison",
+                "description": "simple math service"
+            },
+            "operations": [
+                {
+                    "operationUrl": "multiply/{a}/{b}",
+                    "allowedMethods": [
+                        "GET",
+                        "POST"
+                    ]
+                },
+                {
+                    "operationUrl": "divide/{a}/{b}",
+                    "allowedMethods": [
+                        "GET",
+                        "POST"
+                    ]
+                }
+            ],
+            "baseURI": "/v1/math",
+            "scriptLocation": "classpath://scripts/foo.js"
+        }
+    ]
+}
