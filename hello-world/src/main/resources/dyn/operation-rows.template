@@ -1,0 +1,8 @@
+<tr>
+<td><b>Operation</b></td>
+</tr>
+
+<tr>
+  <td>{{operation-url}}</td>
+  <td>{{allowed-http-methods}}</td>
+</tr>
