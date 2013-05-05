@@ -1,0 +1,31 @@
+
+
+
+
+    }
+    // setup engine
+    ScriptEngineManager mgr = new ScriptEngineManager();
+    ScriptEngine engine = mgr.getEngineByName("JavaScript");
+
+    // inject bindings
+    //Bindings bindings = jsEngine.createBindings();
+    //bindings.put("_returnValue", null);
+
+    try {
+
+        // evaluate the script
+        engine.eval (reader);
+
+        // TODO inject bfg
+
+        logger.error("Running JS...");
+
+        Object ret = ((Invocable) engine).invokeFunction("run", "3", "1");
+
+        logger.error("retVal is " + ret);
+
+        response.put("ret", ret);
+
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }

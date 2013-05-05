@@ -55,20 +55,33 @@ public class AdminResourceTest {
     public void testBasic() throws Exception {
         startServer();
         HttpClient client = new DefaultHttpClient();
-        HttpGet healthGet = new HttpGet("http://localhost:"+ AdminResourcesContainer.LISTEN_PORT_DEFAULT + "/healthcheck");
-        HttpResponse response = client.execute(healthGet);
+        HttpGet healthGet = new HttpGet("http://localhost:" + AdminResourcesContainer.LISTEN_PORT_DEFAULT + "/healthcheck");
+
+        HttpResponse response = null;
+        try {
+            response = client.execute(healthGet);
+        } catch (HttpHostConnectException e) {
+            Thread.sleep(1000);  // HACK!
+            try {
+                response = client.execute(healthGet);
+            } catch (HttpHostConnectException e2) {
+                throw e;
+            }
+
+        }
+
         Assert.assertEquals("admin resource health check failed.", 200, response.getStatusLine().getStatusCode());
     }
 
-    @Test (expected = HttpHostConnectException.class)
+    @Test(expected = HttpHostConnectException.class)
     public void testCustomPort() throws Exception {
         ConfigurationManager.getConfigInstance().setProperty(AdminResourcesContainer.CONTAINER_LISTEN_PORT, CUSTOM_LISTEN_PORT);
         startServer();
         HttpClient client = new DefaultHttpClient();
-        HttpGet healthGet = new HttpGet("http://localhost:"+ AdminResourcesContainer.LISTEN_PORT_DEFAULT + "/healthcheck");
+        HttpGet healthGet = new HttpGet("http://localhost:" + AdminResourcesContainer.LISTEN_PORT_DEFAULT + "/healthcheck");
         client.execute(healthGet);
         throw new AssertionError("Admin container did not bind to the custom port " + CUSTOM_LISTEN_PORT +
-                                 ", instead listened to default port: " + AdminResourcesContainer.LISTEN_PORT_DEFAULT);
+                ", instead listened to default port: " + AdminResourcesContainer.LISTEN_PORT_DEFAULT);
     }
 
     private Injector startServer() throws Exception {

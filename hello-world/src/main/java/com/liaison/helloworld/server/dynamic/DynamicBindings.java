@@ -1,14 +1,9 @@
 package com.liaison.helloworld.server.dynamic;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
-import java.net.URL;
-import java.util.List;
-
 /**
  * POJO representing dynamic service bindings
  *
+ * <p/>
  * Author: Rob
  * Date: 5/1/13
  * Time: 4:26 PM
@@ -16,7 +11,8 @@ import java.util.List;
 
 class DynamicBinding {
 
-    public DynamicBinding(About about, Operation[] operations, String baseURI, String scriptLocation) {
+    public DynamicBinding(String serviceName, About about, Operation[] operations, String baseURI, String scriptLocation) {
+        this.serviceName = serviceName;
         this.about = about;
         this.operations = operations;
         this.baseURI = baseURI;
@@ -27,48 +23,7 @@ class DynamicBinding {
     public Operation[] operations;
     public String baseURI;
     public String scriptLocation;
-
-    // TODO move this to utils
-    private String readFileFromClassPath(String path) {
-        URL url = Resources.getResource(path);
-        try {
-            return Resources.toString(url, Charsets.UTF_8);
-        } catch (Exception e) {
-            throw new RuntimeException("Error resolving " + path + " from classpath.", e);
-        }
-    }
-
-
-    // TODO move landing page builder
-    public String toHTML() {
-
-        String parsed = readFileFromClassPath("/dyn/parsed.template");
-        parsed = parsed.replace("{{binding-title}}", "Binding");
-        parsed = parsed.replace("{{written-by}}", about.author);
-        parsed = parsed.replace("{{description}}", about.description);
-        parsed = parsed.replace("{{base-uri}}", baseURI);
-        parsed = parsed.replace("{{script-location}}", scriptLocation);
-
-        StringBuilder operationSB = new StringBuilder();
-        for (Operation o : operations) {
-
-            String allowedMethods = "";
-            for (String s : o.allowedMethods) {
-                allowedMethods += s + " | ";
-            }
-            String operationTemplate = readFileFromClassPath("/dyn/operation-rows.template");
-            operationTemplate = operationTemplate.replace("{{operation-url}}", o.operationUrl);
-            operationTemplate = operationTemplate.replace("{{allowed-http-methods}}", allowedMethods);
-
-            operationSB.append(operationTemplate);
-        }
-
-        parsed = parsed.replace("{{operation-rows}}", operationSB.toString());
-
-        return parsed;
-
-    }
-
+    public String serviceName;
 
 }
 
@@ -100,19 +55,15 @@ public class DynamicBindings {
 
     public DynamicBinding[] bindings;
 
-    // build dummy object to gen initial json
-    // DynamicBindings configuration = DynamicBindings.buildMockBindings();
-    // Gson gson = new Gson();
-    // String json = gson.toJson(configuration);
-
+    // development-time utility method to build example bindings
     public static DynamicBindings buildMockBindings() {
-        Operation[] operations= new Operation[] {
-                new Operation("multiply/{a}/{b}", new String[] { "GET", "POST" }),
-                new Operation("divide/{a}/{b}", new String[] { "GET", "POST" })
+        Operation[] operations = new Operation[]{
+                new Operation("multiply/{a}/{b}", new String[]{"GET", "POST"}),
+                new Operation("divide/{a}/{b}", new String[]{"GET", "POST"})
         };
-        About a = new About("rchristian@liaison", "simple math service");
-        DynamicBinding binding = new DynamicBinding(a,  operations, "/v1/math", "classpath://scripts/foo.js");
-        DynamicBinding[] bindings = new DynamicBinding[]{ binding, binding };
+        About a = new About("rchristian@liaison", "simple hello world service");
+        DynamicBinding binding = new DynamicBinding("HelloWorldService", a, operations, "/v1/math", "classpath://scripts/foo.js");
+        DynamicBinding[] bindings = new DynamicBinding[]{binding, binding};
         DynamicBindings db = new DynamicBindings(bindings);
         return db;
     }

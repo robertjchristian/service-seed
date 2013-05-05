@@ -1,25 +1,25 @@
 package com.liaison.helloworld.server.dynamic;
 
-import com.google.common.io.Resources;
-import com.google.common.base.Charsets;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.liaison.framework.util.ServiceUtils;
 
-import java.io.*;
-import java.net.URL;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class DynamicServicesServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
+        // TODO:  Probably shouldn't build and load every time, but don't want to cache and hold indefinitely either
+        // needs to be updatable in real-time
         // for now, always expect service config here under classpath
-        String rawServiceConfig = readFileFromClassPath("/dyn/bindings.json");
+        String rawBindingConfiguration = ServiceUtils.readFileFromClassPath("/dyn/bindings.json");
 
         // parse service configuration
-        DynamicBindings serviceBindings = new Gson().fromJson(rawServiceConfig, DynamicBindings.class);
+        DynamicBindings serviceBindings = new Gson().fromJson(rawBindingConfiguration, DynamicBindings.class);
 
         // ie if http://localhost:8989/hello-world/dyn/foo/bar/baz, then /foo/bar/baz
         String path = request.getPathInfo();
@@ -27,46 +27,13 @@ public class DynamicServicesServlet extends HttpServlet {
         // if no path info, show landing page information
         if (path == null || path.equals("/")) {
 
-            // read landing page template
-            String template = readFileFromClassPath("/dyn/landing.template");
-
-            // swap raw pretty config token
-            template = template.replace("{{rawConfigJSON}}", prettifyJSON(rawServiceConfig));
-
-            // build and swap parsed section
-
-            String s = "";
-            for (DynamicBinding db : serviceBindings.bindings) {
-               s += db.toHTML();
-            }
-            template = template.replace("{{parsedConfiguration}}", s);
-
-
-
-
-            response.getWriter().print(template);
+            // TODO: Probably shouldn't build every time...
+            String html = DynamicServicesWebPageBuilder.buildHTMLPageFromBindings(rawBindingConfiguration, serviceBindings);
+            response.getWriter().print(html);
 
             return;
         }
 
-    }
-
-    private String readFileFromClassPath(String path) {
-        URL url = Resources.getResource(path);
-        try {
-            return Resources.toString(url, Charsets.UTF_8);
-        } catch (Exception e) {
-            throw new RuntimeException("Error resolving " + path + " from classpath.", e);
-        }
-
-    }
-
-    private String prettifyJSON(String rawJSON) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonParser jp = new JsonParser();
-        JsonElement je = jp.parse(rawJSON);
-        String pretty = gson.toJson(je);
-        return pretty;
     }
 
 }
