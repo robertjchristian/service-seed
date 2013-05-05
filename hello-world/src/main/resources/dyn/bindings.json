@@ -1,52 +1,55 @@
 {
     "bindings": [
+
         {
             "about": {
-                "author": "rchristian@liaison",
-                "description": "simple math service"
+                "author": "seattl-dev@liaison",
+                "description": "Provides ability to create, read, update, delete, and list of the Foo resource."
             },
             "operations": [
                 {
-                    "operationUrl": "multiply/{a}/{b}",
+                    "operationUrl": "foo",
                     "allowedMethods": [
-                        "GET",
-                        "POST"
+                        "GET"
                     ]
                 },
                 {
-                    "operationUrl": "divide/{a}/{b}",
+                    "operationUrl": "foo/{id}",
                     "allowedMethods": [
                         "GET",
-                        "POST"
+                        "POST",
+                        "DELETE",
+                        "HEAD",
+                        "PUT"
                     ]
                 }
             ],
-            "baseURI": "/v1/math",
+            "serviceName": "CrudFooService",
+            "baseURI": "/v21/",
             "scriptLocation": "classpath://scripts/crud/foo.js"
         },
         {
             "about": {
                 "author": "rchristian@liaison",
-                "description": "simple math service"
+                "description": "Performs rudimentary mathematical operations as a service..."
             },
             "operations": [
                 {
                     "operationUrl": "multiply/{a}/{b}",
                     "allowedMethods": [
-                        "GET",
-                        "POST"
+                        "GET"
                     ]
                 },
                 {
                     "operationUrl": "divide/{a}/{b}",
                     "allowedMethods": [
-                        "GET",
-                        "POST"
+                        "GET"
                     ]
                 }
             ],
+            "serviceName": "SimpleMathService",
             "baseURI": "/v1/math",
-            "scriptLocation": "classpath://scripts/foo.js"
+            "scriptLocation": "classpath://scripts/math/math.js"
         }
     ]
 }
