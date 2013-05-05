@@ -30,6 +30,14 @@ subprojects {
         reports.xml.enabled false
     }
 
+    // Ignore failures for now, reporting should be sufficient.
+    // In the near-term, introduce annotations and IDE plugins
+    // so that failures are easier to deal with.
+    findbugs {       
+        effort = "min"
+        ignoreFailures = true       
+    }
+
     // PMD
     apply plugin: 'pmd'
     tasks.withType(Pmd) { 
