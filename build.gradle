@@ -65,28 +65,3 @@ project(':karyon-admin-web') {
         compile 'com.google.code.gson:gson:2.1'
     }
 }
-
-// TODO doesn't work
-task deleteDeployed(type: Delete) {
-  ext.toDelete = 'apache-tomcat-7.0.39/webapps/hello-world*'
-  println 'Deleting ' + ext.toDelete
-  delete (ext.toDelete)
-}
-
-// custom tasks (move to example?)
-task deploy(depends:deleteDeployed) << {
-     
-    // TODO pull from env
-    ext.deployFrom = "./hello-world/build/libs/"
-    //ext.deployTo = "$System.env.CATALINA_HOME" + 'webapps'
-    ext.deployTo = "./apache-tomcat-7.0.39/webapps"
-
-    println "Copying wars from " + ext.deployFrom + " to " + ext.deployTo
-
-    copy{
-      from ext.deployFrom
-      into ext.deployTo
-      include '*.war'
-    }
-
-}
