@@ -19,7 +19,7 @@ apply plugin: 'war'
 apply plugin: 'jetty'
 
 war {
-    from('resources')  {
+    from('resources') {
         include '*.properties'
         into 'WEB-INF/classes/'
     }
@@ -35,13 +35,13 @@ dependencies {
 
 jettyRun.doFirst {
     // use the default port of the ws-backend-simulation module
-    System.setProperty("archaius.deployment.applicationId","hello-world")
-    System.setProperty("archaius.deployment.environment","dev")
+    System.setProperty("archaius.deployment.applicationId", "hello-world")
+    System.setProperty("archaius.deployment.environment", "dev")
 }
 
 jettyRun {
     httpPort = 8989
     reload = 'automatic'
     scanIntervalSeconds = 2
-    daemon = false 
+    daemon = false
 }
