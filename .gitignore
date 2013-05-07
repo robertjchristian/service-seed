@@ -1,6 +1,6 @@
 # Don't commit logs or build/deploy artifacts #
 ###############################################
-hello-world/build/
+com.liaison.service-implementation/build/
 # and for now don't commit changes to tomcat at all... something is getting corrupted
 apache-tomcat-7.0.39
 apache-tomcat-*/logs/**
