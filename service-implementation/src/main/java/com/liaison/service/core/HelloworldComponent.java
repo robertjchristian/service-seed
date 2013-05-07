@@ -13,5 +13,21 @@
  *      See the License for the specific language governing permissions and
  *      limitations under the License.
  */
-rootProject.name='com.liaison.service-seed'
-include 'karyon-admin', 'karyon-admin-web', 'service-framework', 'service-implementation'
+
+package com.liaison.service.core;
+
+import com.netflix.karyon.spi.Component;
+
+import javax.annotation.PostConstruct;
+
+/**
+ * @author Nitesh Kant (nkant@netflix.com)
+ */
+@Component
+public class HelloworldComponent {
+
+    @PostConstruct
+    public void initialize() {
+        // TODO: Initialization logic, eg: connection to DB etc.
+    }
+}
