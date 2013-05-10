@@ -19,9 +19,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-/**
- * Simple Sample Code for getting a monitor into JMX.
- */
 public class MonitoringExample {
 
     @Monitor(name = "sampleInformational", type = DataSourceType.INFORMATIONAL)
@@ -53,29 +50,4 @@ public class MonitoringExample {
         return sampleGuage;
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        List<Tag> tags = new ArrayList<Tag>(2);
-        tags.add(InjectableTag.HOSTNAME);
-        tags.add(InjectableTag.IP);
-
-        Counter counter = new BasicCounter(MonitorConfig.builder("test1").withTags(tags).build());
-
-        String id = null;
-        if (args.length > 0) {
-            id = args[0];
-        }
-        MonitoringExample example = new MonitoringExample(tags);
-
-        Monitors.registerObject(id, example);
-        DefaultMonitorRegistry.getInstance().register(counter);
-
-        final int max = 1000;
-        final long delay = 10000L;
-        while (true) {
-            example.counter.incrementAndGet();
-            counter.increment();
-            example.setSampleGauge(Math.round(Math.random() * max));
-            Thread.sleep(delay);
-        }
-    }
 }

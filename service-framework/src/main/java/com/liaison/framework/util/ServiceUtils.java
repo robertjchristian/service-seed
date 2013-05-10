@@ -17,6 +17,11 @@ import java.net.URL;
 public class ServiceUtils {
 
     public static String readFileFromClassPath(String path) {
+
+        if (path.startsWith("classpath://")) {
+            path = path.replace("classpath://", "/");
+        }
+
         URL url = Resources.getResource(path);
         try {
             return Resources.toString(url, Charsets.UTF_8);
