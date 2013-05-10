@@ -1,3 +1,9 @@
+apply plugin: 'war'
+apply plugin: 'jetty'
+
+// set base name (impacts war name and context path)
+project.war.baseName = "hello-world"
+
 // Establish version and status
 ext.githubProjectName = rootProject.name // Change if github project name is not the same as the root project's name
 
@@ -14,9 +20,6 @@ apply from: file('../gradle/convention.gradle')
 apply from: file('../gradle/maven.gradle')
 apply from: file('../gradle/check.gradle')
 apply from: file('../gradle/license.gradle')
-
-apply plugin: 'war'
-apply plugin: 'jetty'
 
 war {
     from('resources') {
