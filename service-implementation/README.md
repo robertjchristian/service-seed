@@ -1,4 +1,4 @@
-com.liaison.service-implementation
+service-implementation
 ===================
 
 Starting point (seed) for a com.liaison.service implementation.

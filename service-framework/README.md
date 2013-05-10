@@ -1,7 +1,7 @@
-com.liaison.service-implementation
+service-framework
 ===================
 
-Starting point (seed) for a com.liaison.service implementation.
+Framework module
 
 to run
 ===================
