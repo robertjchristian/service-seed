@@ -3,7 +3,7 @@
 
         {
             "about": {
-                "author": "seattl-dev@liaison",
+                "author": "seattle-dev@liaison",
                 "description": "Provides ability to create, read, update, delete, and list of the Foo resource."
             },
             "operations": [
@@ -14,7 +14,7 @@
                     ]
                 },
                 {
-                    "operationUrl": "foo/{id}",
+                    "operationUrl": "/foo/{id}",
                     "allowedMethods": [
                         "GET",
                         "POST",
@@ -26,7 +26,7 @@
             ],
             "serviceName": "CrudFooService",
             "baseURI": "/v21/",
-            "scriptLocation": "classpath://scripts/crud/foo.js"
+            "scriptLocation": "classpath://dyn/scripts/crud/foo.js"
         },
         {
             "about": {
@@ -35,13 +35,13 @@
             },
             "operations": [
                 {
-                    "operationUrl": "multiply/{a}/{b}",
+                    "operationUrl": "/multiply/{a}/{b}",
                     "allowedMethods": [
                         "GET"
                     ]
                 },
                 {
-                    "operationUrl": "divide/{a}/{b}",
+                    "operationUrl": "/divide/{a}/{b}",
                     "allowedMethods": [
                         "GET"
                     ]
@@ -49,7 +49,7 @@
             ],
             "serviceName": "SimpleMathService",
             "baseURI": "/v1/math",
-            "scriptLocation": "classpath://scripts/math/math.js"
+            "scriptLocation": "classpath://dyn/scripts/math/math.js"
         }
     ]
 }
