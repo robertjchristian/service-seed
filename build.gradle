@@ -39,9 +39,11 @@ apply from: file('gradle/release.gradle')
 apply plugin: 'java'
 
 subprojects {
+
     group = "com.netflix.${githubProjectName}" // TEMPLATE: Set to organization of project
 
     dependencies {
+        compile 'com.netflix.blitz4j:blitz4j:1.23'
         compile 'org.slf4j:slf4j-api:1.6.4'
         compile 'com.google.guava:guava:11.0.2'
         compile 'javax.ws.rs:jsr311-api:1.1.1'
