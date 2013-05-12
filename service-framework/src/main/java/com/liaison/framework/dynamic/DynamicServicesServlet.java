@@ -5,7 +5,9 @@ import com.liaison.framework.util.ServiceUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.script.*;
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +25,7 @@ public class DynamicServicesServlet extends HttpServlet {
         // TODO:  Probably shouldn't build and load every time, but don't want to cache and hold indefinitely either
         // needs to be updatable in real-time
         // for now, always expect com.liaison.service config here under classpath
-        String rawBindingConfiguration = ServiceUtils.readFileFromClassPath("/dyn/bindings.json");
+        String rawBindingConfiguration = ServiceUtils.readFileFromClassPath("/bindings.json");
 
         // parse com.liaison.service configuration
         DynamicBindings serviceBindings = new Gson().fromJson(rawBindingConfiguration, DynamicBindings.class);
@@ -51,12 +53,12 @@ public class DynamicServicesServlet extends HttpServlet {
         ScriptEngineManager manager = new ScriptEngineManager();
 
         // Obtain a ScriptEngine that supports the JavaScript short name.
-        ScriptEngine engine = manager.getEngineByName ("JavaScript");
+        ScriptEngine engine = manager.getEngineByName("JavaScript");
 
         // Evaluate the script.
         Object result = null;
         try {
-            engine.eval (scriptContents);
+            engine.eval(scriptContents);
 
             Invocable invocable = (Invocable) engine;
 
