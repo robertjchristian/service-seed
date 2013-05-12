@@ -2,7 +2,7 @@ package com.liaison.framework.dynamic;
 
 /**
  * POJO representing com.liaison.framework.dynamic com.liaison.service bindings
- *
+ * <p/>
  * <p/>
  * Author: Rob
  * Date: 5/1/13
