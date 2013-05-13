@@ -1,6 +1,7 @@
 package com.liaison.framework.dynamic;
 
 import com.google.gson.Gson;
+import com.google.inject.Singleton;
 import com.liaison.framework.util.ServiceUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import java.io.IOException;
 
 // TODO Note this is a quick and dirty for Proof of Concept purposes only.
 
+@Singleton
 public class DynamicServicesServlet extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(DynamicServicesServlet.class);

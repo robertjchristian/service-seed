@@ -8,6 +8,19 @@
     =========================================================================
     -->
 
+    <!-- Framework-level support for guice, please do not modify. -->
+    <filter>
+        <filter-name>guiceFilter</filter-name>
+        <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>guiceFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <listener>
+        <listener-class>com.netflix.karyon.server.guice.KaryonGuiceContextListener</listener-class>
+    </listener>
+
     <!-- Framework initialization servlet, please do not modify -->
     <servlet>
         <servlet-name>InitializationServlet</servlet-name>
@@ -45,21 +58,6 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
-    <!-- Framework-level support, please do not modify. -->
-    <filter>
-        <filter-name>guiceFilter</filter-name>
-        <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>guiceFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <!-- Framework-level support, please do not modify. -->
-    <listener>
-        <listener-class>com.netflix.karyon.server.guice.KaryonGuiceContextListener</listener-class>
-    </listener>
 
     <!--
     =========================================================================
