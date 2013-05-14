@@ -14,8 +14,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// TODO Note this is a quick and dirty for Proof of Concept purposes only.
-
+/**
+ * Dynamic Services Servlet
+ * <p/>
+ * <P>Entry point, router, and processor of dynamic service requests
+ * <p/>
+ * Note:  This is a very quick and dirty implementation for proof of concept only.  Next
+ * iteration, this will be evolved heavily and include richer support, and WADL.
+ *
+ * @author Robert.Christian
+ * @version 1.0
+ */
 @Singleton
 public class DynamicServicesServlet extends HttpServlet {
 

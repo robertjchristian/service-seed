@@ -10,9 +10,12 @@ import com.google.gson.JsonParser;
 import java.net.URL;
 
 /**
- * Grab bag of utility methods used by services.
+ * Service Utils
+ * <p/>
+ * <P>Grab bag of utilities used by service framework and implementation
  *
  * @author Robert.Christian
+ * @version 1.0
  */
 public class ServiceUtils {
 
