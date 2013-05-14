@@ -1,14 +1,13 @@
 package com.liaison.framework.dynamic;
 
 /**
- * POJO representing com.liaison.framework.dynamic com.liaison.service bindings
+ * Dynamic Bindings
  * <p/>
- * <p/>
- * Author: Rob
- * Date: 5/1/13
- * Time: 4:26 PM
+ * <P>POJO Model of the Dynamic Services bindings JSON descriptor
+ *
+ * @author Robert.Christian
+ * @version 1.0
  */
-
 class DynamicBinding {
 
     public DynamicBinding(String serviceName, About about, Operation[] operations, String baseURI, String scriptLocation) {

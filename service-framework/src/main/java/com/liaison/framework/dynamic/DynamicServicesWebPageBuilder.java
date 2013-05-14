@@ -3,12 +3,12 @@ package com.liaison.framework.dynamic;
 import com.liaison.framework.util.ServiceUtils;
 
 /**
- * Create the DynamicServicesWebPage
+ * Dynamic Services Web Page Builder
  * <p/>
- * User: rob
- * Date: 5/2/13
- * Time: 2:05 PM
- * To change this template use File | Settings | File Templates.
+ * <P>Quick and dirty templating for the dynamic services landing page
+ *
+ * @author Robert.Christian
+ * @version 1.0
  */
 public class DynamicServicesWebPageBuilder {
 

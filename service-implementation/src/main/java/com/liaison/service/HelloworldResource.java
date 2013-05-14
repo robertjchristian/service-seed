@@ -33,10 +33,28 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Path("/hello")
+/**
+ * HelloworldResource
+ *
+ * <P>Statically defines service endpoints using Jersey.
+ *
+ * <P></>For dynamically described endpoints, @see com.liaison.framework.dynamic.DynamicServicesServlet
+ *
+ * @author Robert.Christian
+ * @version 1.0
+ */
+
+@Path("v1/hello")
 public class HelloworldResource {
 
     private static final Logger logger = LoggerFactory.getLogger(HelloworldResource.class);
+
+    // For a more thorough metrics example, see
+    // https://github.com/cfregly/fluxcapacitor/blob/master/flux-edge/src/main/java/com/fluxcapacitor/edge/jersey/resources/EdgeResource.java
+    // ... this example includes reporting via Hystrix as well
+
+    // here is another:
+    // https://github.com/cfregly/fluxcapacitor/blob/master/flux-middletier/src/main/java/com/fluxcapacitor/middletier/jersey/resources/MiddleTierResource.java
 
     @Monitor(name = "failureCounter", type = DataSourceType.COUNTER)
     private final static AtomicInteger failureCounter = new AtomicInteger(0);
