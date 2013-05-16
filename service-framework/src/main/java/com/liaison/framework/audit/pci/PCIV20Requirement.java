@@ -129,7 +129,7 @@ public enum PCIV20Requirement implements AuditStandardsRequirement {
         this.description = description;
     }
 
-    private String getDescription() {
+    public String getDescription() {
         return description;
     }
 

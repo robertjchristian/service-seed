@@ -12,16 +12,24 @@ public class DefaultAuditStatement implements AuditStatement {
         this.message = message;
     }
 
+    @Override
     public String getMessage() {
         return this.message;
     }
 
+    @Override
     public Status getStatus() {
         return this.status;
     }
 
+    @Override
     public AuditStandardsRequirement getAuditStandardsRequirement() {
         return this.getAuditStandardsRequirement();
     }
+
+    public String toString() {
+      return getAuditStandardsRequirement().toString() + getAuditStandardsRequirement().getDescription() + "::" + getStatus() + "::" + getMessage();
+    }
+
 
 }

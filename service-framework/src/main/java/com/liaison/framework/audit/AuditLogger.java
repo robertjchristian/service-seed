@@ -19,6 +19,7 @@ public class AuditLogger {
 
     public static void log(AuditStandardsRequirement requirement, AuditStatement.Status status, String message) {
         logger.error (Marker.ANY_MARKER, new DefaultAuditStatement(requirement, status, message));
+        Thread.currentThread().getStackTrace().toString();
     }
 
 }
