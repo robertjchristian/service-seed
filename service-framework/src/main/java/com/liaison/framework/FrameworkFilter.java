@@ -32,6 +32,8 @@ public class FrameworkFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
+        logger.info("Info!");
+
         AuditLogger.log(PCIV20Requirement.PCI10_2_2, AuditStatement.Status.ATTEMPT, "Attempting to create PID");
 
         int pid = ProcessManager.initTransaction();

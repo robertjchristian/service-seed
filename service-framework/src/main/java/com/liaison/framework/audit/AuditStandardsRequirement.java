@@ -8,6 +8,6 @@ package com.liaison.framework.audit;
  */
 public interface AuditStandardsRequirement {
 
-    String name();
+    String getDescription();
 
 }
