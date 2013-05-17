@@ -1,0 +1,203 @@
+<project name="Hello" default="compile">
+
+    <!-- Environment -->
+	<!-- =========== --> 
+    <property name="Name" value="Hello"/>
+	<property environment="env"/>
+    <property name="project.location" location="."/>
+    <property name="project.build.debug" value="on"/>
+    <property name="name" value="${Name}"/>
+    <property name="version" value="3.0"/>
+	
+    <!-- Project workspace directories -->
+	<!-- ============================= -->
+    <property name="java.dir" value="src/main/java"/>
+    <property name="test.dir" value="src/test/java"/>
+	<property name="resources.dir" value="src/main/resources"/>
+	<property name="lib.dir" value="lib"/>
+	<property name="dist.dir" value="dist"/>
+
+    <!-- Compile properties -->
+	<!-- ================== -->
+    <property name="classes.dir" value="target/classes"/>
+    
+    <!-- Classpath for execution -->
+	<!-- ======================= -->
+    <path id="run.classpath">
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+        <pathelement location="${classes.dir}"/>
+        <pathelement location="${basedir}"/>
+    </path>
+
+    <!-- Classpath for compile -->
+	<!-- ===================== -->
+    <path id="compile.classpath">
+        <pathelement location="${classes.dir}"/>
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+            <exclude name="**/*enhancer*.jar"/>
+        </fileset>
+        <pathelement location="${classes.dir}"/>
+        <pathelement location="${basedir}"/>
+    </path>
+
+    <!-- Clean target -->
+    <!-- ============ -->
+    <target name="clean">
+        <delete includeEmptyDirs="true" quiet="true">
+            <fileset dir="${classes.dir}" includes="**/*.class,**/*.properties,**/*.*"/>
+            <fileset dir="${dist.dir}" includes="**/*.jar,**/*.war"/>
+		</delete>
+    </target>
+
+    <!-- Prepare target -->
+	<!-- ============== -->
+	<target name="prepare">
+		<mkdir dir="${classes.dir}"/>
+    </target>
+
+	<!-- Compile Target -->
+	<!-- ============== -->
+    <target name="compile" depends="clean,prepare">
+        
+    	<echo message="==================================================================="/>
+        <echo message="Compile configuration:"/>
+        <echo message="java.dir       = ${java.dir}"/>
+    	<echo message="test.dir       = ${test.dir}"/>
+    	<echo message="classes.dir    = ${classes.dir}"/>
+        <echo message="==================================================================="/>
+
+    	<javac srcdir="${java.dir}" destdir="${classes.dir}" debug="${project.build.debug}" classpathref="compile.classpath">
+            <include name="**/*.java"/>
+        </javac>
+
+    	<javac srcdir="${test.dir}" destdir="${classes.dir}" debug="${project.build.debug}" classpathref="compile.classpath">
+            <include name="**/*.java"/>
+        </javac>
+
+    </target>
+
+    <!-- Copy metadata target -->
+	<!-- ==================== -->
+	<target name="copy.metadata">
+		<copy todir="${classes.dir}">
+            <fileset dir="${resources.dir}" includes="**/*.xml"/>
+        </copy>
+    </target>
+	
+    <!-- Enhance target -->
+	<!-- ============== -->
+	<target name="enhance" depends="compile,copy.metadata">
+
+        <!-- Define the task enhancer -->
+        <taskdef name="enhancer" classname="org.datanucleus.enhancer.EnhancerTask">
+            <classpath refid="run.classpath"/>
+        </taskdef>
+
+        <!-- Enhance -->
+        <enhancer classpathref="run.classpath" dir="${classes.dir}" verbose="true" api="JPA" persistenceUnit="${Name}">
+            <sysproperty key="log4j.configuration" value="file:log4j.properties"/>
+        </enhancer>
+		
+    </target>
+
+    <!-- SchemaTool create target -->
+	<!-- ======================== -->
+    <target name="createschema">
+        
+		<taskdef name="schematool" classname="org.datanucleus.store.schema.SchemaToolTask">
+            <classpath refid="run.classpath"/>
+        </taskdef>
+
+        <schematool classpathref="run.classpath" failonerror="true" verbose="true" 
+            mode="create" api="JPA" persistenceUnit="${Name}">
+            <fileset dir="${basedir}/target/classes">
+                <include name="**/*.xml"/>
+            </fileset>
+            <sysproperty key="log4j.configuration" value="file:${basedir}/log4j.properties"/>
+        </schematool>
+		
+    </target>
+
+    <!-- SchemaTool delete target -->
+	<!-- ======================== -->
+    <target name="deleteschema">
+
+		<taskdef name="schematool" classname="org.datanucleus.store.schema.SchemaToolTask">
+            <classpath refid="run.classpath"/>
+        </taskdef>
+
+        <schematool classpathref="run.classpath" failonerror="true" fork="true" verbose="true" 
+            mode="delete" api="JPA" persistenceUnit="${Name}">
+            <fileset dir="${basedir}/target/classes">
+                <include name="**/*.xml"/>
+            </fileset>
+            <sysproperty key="log4j.configuration" value="file:${basedir}/log4j.properties"/>
+        </schematool>
+		
+    </target>
+
+    <!-- SchemaTool dbinfo target -->
+	<!-- ======================== -->
+    <target name="schemainfo">
+
+		<taskdef name="schematool" classname="org.datanucleus.store.schema.SchemaToolTask">
+            <classpath refid="run.classpath"/>
+        </taskdef>
+
+        <schematool classpathref="run.classpath" failonerror="true" fork="true" verbose="true" 
+            mode="dbinfo" api="JPA" persistenceUnit="${Name}">
+            <fileset dir="${basedir}/target/classes">
+                <include name="**/*.xml"/>
+            </fileset>
+            <sysproperty key="log4j.configuration" value="file:${basedir}/log4j.properties"/>
+        </schematool>
+		
+    </target>
+
+	<!-- Create JAR distribution -->
+	<!-- ======================= -->
+	<target name="dist" depends="compile, enhance" description="Generate JAR distribution" >
+		<jar jarfile="${dist.dir}/${name}.jar" basedir="${classes.dir}"/>
+	</target>
+
+	<!-- Create WAR distribution -->
+	<!-- ======================= -->
+	<target name="war" depends="dist" description="Generate WAR distribution" >
+		<war destfile="${dist.dir}/${name}.war"  webxml="src/main/resources/WEB-INF/web.xml">
+			<lib dir="${dist.dir}"/>
+			<lib dir="${lib.dir}"/>
+			<classes dir="${classes.dir}" includes="**/HelloServlet.class"/>
+			<!-- 
+			<fileset dir="src/html/myapp"/>
+			<classes dir="build/main"/>
+			<zipfileset dir="src/graphics/images/gifs" prefix="images"/>
+			-->
+		</war>
+	</target>
+	
+	<!-- Execute -->
+	<!-- ======= -->
+    <target name="run" description="Run the application">
+        <java classname="com.liaison.hellodao.Main" classpathref="run.classpath" fork="true"/>
+    </target>
+	
+	<!-- Execute JUnit -->
+	<!-- ============= -->
+    <target name="junit" description="Run JUnit">
+
+		<java classname="org.junit.runner.JUnitCore" classpathref="run.classpath" fork="true">
+        	<arg value="com.liaison.hellodao.dao.HelloDAOTest"/>
+<!--        	<jvmarg value="-Dlog4j.configuration=file:log4j.properties"/> -->
+				<jvmarg value="-XX:-UseSplitVerifier"/>
+        </java>
+		
+	</target>
+	
+	<!-- For testing -->
+	<!-- =========== -->
+    <target name="doit" depends="compile, enhance, junit" description="Do it all"/>
+
+</project>
