@@ -19,6 +19,7 @@ public class AuditAppender extends AppenderSkeleton {
             statement = (AuditStatement)event.getMessage();
         } catch (ClassCastException e) {
             System.out.println("Logging event expected to be of type " + AuditStatement.class.toString());
+            System.out.println(event.getMessage().toString());
             return;
         }
 
