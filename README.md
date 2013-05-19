@@ -51,7 +51,7 @@ The service-implementation module is the module everyone will be concerned with.
 
 Let's say you wanted to develop a service called "math" that multiplies two template parameters and returns the result.  
 
-<h5>First step, barebones implementation</h5>
+<h4>First step, barebones implementation</h4>
 * Get the project, (ie) git clone github:robertjchristian/service-seed
  * As a sanity check, perform the steps in "to run" outlined above`
 * nano service-implementation/src/main/java/com/liaison/service/HelloworldResource
@@ -62,7 +62,7 @@ Let's say you wanted to develop a service called "math" that multiplies two temp
 
 That's it!
 
-<h5>Second step, productize</h5>
+<h4>Second step, productize</h4>
 
 Realistically you will want to productize your service, which basically means fixing up the namespace from hello-world to something more specific to your particular service.  These steps outline that process.  Note that scaffolding is on the near-term roadmap, and will make most or all of these steps obsolete:
 
