@@ -18,7 +18,8 @@ Service seed is a starting point for service implementations.  It is a fork of t
 
 <h3>Pre-requisites</h3>
 * Gradle >= 1.4
-* JDK >= 6 (note JDK currently breaks Cobertura)
+* JDK >= 6 
+ * Note that JDK 7 currently breaks unit tests instrumented by Cobertura
 
 <h3>To run</h3>
 
@@ -35,7 +36,9 @@ Service seed is a starting point for service implementations.  It is a fork of t
 * Then copy (deploy) to your container of choice
 
 <h3>Developing a concrete service from the seed</h3>
+
 There are currently four modules within the seed:
+
 * karyon-admin-web
 * karyon-admin
 * service-framework
@@ -52,8 +55,8 @@ The service-implementation module is the module everyone will be concerned with.
 Let's say you wanted to develop a service called "math" that multiplies two template parameters and returns the result.  
 
 <h4>First step, barebones implementation</h4>
-* Get the project, (ie) git clone github:robertjchristian/service-seed
- * As a sanity check, perform the steps in "to run" outlined above`
+* Get/fork the project, (ie) git clone github:robertjchristian/service-seed
+ * As a sanity check, perform the steps in "to run" outlined above` 
 * nano service-implementation/src/main/java/com/liaison/service/HelloworldResource
  * Copy/paste the helloTo service, including annotations
  * Change path from "to/{name}" to "multiply/{a}/{b}"
@@ -74,6 +77,18 @@ Realistically you will want to productize your service, which basically means fi
  * Make sure to update math.properties to reflect any high-level namespace change, ie com.netflix.karyon.server.base.packages=com.liaison
 to com.netflix.karyon.server.base.packages=com.acme
 
+
+<h3>Keeping up with change</h3>
+
+This project is going to be in flux for the foreseeable future (see roadmap).
+
+Adding service-seed as a remote tracking branch is a low cost and easy way to pick up changes. It's recommended to do something like:
+
+<pre>
+git remote add --track multi-project service-seed git@github.com:robertjchristian/service-seed.git
+git fetch service-seed
+git merge service-seed/master
+</pre>
 
 
 
