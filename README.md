@@ -23,12 +23,12 @@ Service seed is a starting point for service implementations.  It is a fork of t
 <h3>To run</h3>
 
 * From the project root, "gradle jettyRun"
-** Checkout the admin console at http://localhost:8077
-** Checkout the example REST services at http://localhost:8989/hello-world/v1/
-*** /hello - example of static service (no parameters)
-*** /hello/to/world - example of dynamic query parameter
-** Checkout the dynamic services landing page
-*** localhost:8989/dyn
+ * Checkout the admin console at http://localhost:8077
+ * Checkout the example REST services at http://localhost:8989/hello-world/v1/
+  * /hello - example of static service (no parameters)
+  * /hello/to/world - example of dynamic query parameter
+ * Checkout the dynamic services landing page
+  * localhost:8989/dyn
 
 <h3>To deploy</h3>
 * From the project root, "gradle war"
