@@ -1,12 +1,12 @@
 <h2>Service Seed</h2>
 
 <h3>About</h3>
-Service seed is a starting point for service implementations.  It is a fork of the Netflix/karyon project found on github, with additional features.  The purpose of the seed is to enable homogenous, SOA-focused webservice development.  Out of the box, the seed offers support for and examples of:
+Service seed is a starting point for developing homogenous, SOA/Enterprise-friendly webservices.  It is a fork of the Netflix/karyon project found on github, with added functionality and examples.  Out of the box, the seed offers:
 
 * Java webservice development (Jersey stack and working examples)
 * Dynamic webservice development (runtime-deployment of Javascript-defined webservices)
 * Database/ORM integration (via JPA)
-* Asynchronous logging
+* Asynchronous logging (Blitz4j)
 * Properties management (via Netflix Archaeus)
 * JMX monitoring (made easy) and metrics reporting (via Netflix Servo)
 * Framework-level monitoring (bytes in/out, CPU high water mark, number of requests handled per endpoint, etc)
