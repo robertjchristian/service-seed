@@ -1,14 +1,17 @@
-apply plugin: 'war'
-apply plugin: 'jetty'
+
 
 // set base name (impacts war name and context path)
 project.war.baseName = "hello-world"
 
 // Establish version and status
-ext.githubProjectName = rootProject.name // Change if github project name is not the same as the root project's name
+ext.githubProjectName = rootProject.name 
 
 buildscript {
     repositories { mavenCentral() }
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-cargo-plugin:0.6'
+    }
+    
     apply from: file('../gradle/buildscript.gradle'), to: buildscript
 }
 
@@ -16,20 +19,15 @@ allprojects {
     repositories { mavenCentral() }
 }
 
-apply from: file('../gradle/convention.gradle')
-apply from: file('../gradle/maven.gradle')
-apply from: file('../gradle/check.gradle')
-apply from: file('../gradle/license.gradle')
-
-war {
-    from('resources') {
-        include '*.properties'
-        into 'WEB-INF/classes/'
-    }
-    webXml = file('src/main/webapp/WEB-INF/web.xml')
-}
+apply plugin: 'war'
+apply plugin: 'cargo'
+apply plugin: 'jetty'
 
 dependencies {
+    // ************************************* beg cargo *********************************************
+    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+            "org.codehaus.cargo:cargo-ant:$cargoVersion"
+    // ************************************* end cargo *********************************************
 
     // before moving to log4j2, need to fix
     // compatibility issue with custom audit appender
@@ -47,19 +45,73 @@ dependencies {
     compile project(':service-framework')
 }
 
-jettyRun.doFirst {
-    // use the default port of the ws-backend-simulation module
-    System.setProperty("archaius.deployment.applicationId", "hello-world")
-    System.setProperty("archaius.deployment.environment", "dev")
+war {
+    from('resources') {
+        include '*.properties'
+        into 'WEB-INF/classes/'
+    }
+    webXml = file('src/main/webapp/WEB-INF/web.xml')
+}
 
-    // we only use jettyRun in dev... might as well output log4j debug
-    System.setProperty("log4j.debug", "true")
+cargo {
+    containerId = 'tomcat7x'
+    port = new Integer(tomcatHttpPort)
+    
+    deployable{
+        // NOTE: Override file to make it pick up an existing war instead of that produce by running other tasks
+        //        file = file('target/contivo-conversion-service-0.0.1.war')
+        context = 'jaxrs-service'
 
+        // wait on this URL before continuing
+        def pingURL = "http://localhost:${tomcatHttpPort}/jaxrs-service/hello/echo/SierraTangoNevada"
+    }
+
+    local {
+// NOTE: uncomment following line to use existing tomcat install
+//        homeDir = file('/Library/Tomcat') // TODO should be set from CATALINA_HOME
+        output = file('build/output.log')
+
+//TODO INTALL OUTSIDE OF BUILDDIR... SO CLEAN DOESN'T KILL TOMCAT INSTALL UNLESS EXPLICITLY TOLD TO DO SO.
+         installer {
+                installUrl = "http://apache.osuosl.org/tomcat/tomcat-7/v${tomcatVersion}/bin/apache-tomcat-${tomcatVersion}.zip"
+                downloadDir = file("$buildDir/download") 
+                extractDir = file("$buildDir/extract")
+            }
+
+        tomcat {
+            ajpPort = new Integer(tomcatAjpPort)
+        }
+         
+        if(containerJVMArgs) {
+            jvmArgs = "$containerJVMArgs"        
+        } else {
+            // set contivo paths
+            jvmArgs = "-Dcontivo.runtime.classpath=$buildDir/classpath -Dcontivo.runtime.map.root=$buildDir/../src/test/resources/data"
+        }
+           
+        // if containerDebug, append tomcat debug args to jvm args
+        if(containerDebug) {
+            jvmArgs += " $containerDebugJVMArgs"
+        }
+        
+        logger.info "=====jvmArgs===="
+        logger.info "$jvmArgs"
+
+    }
+    
 }
 
 jettyRun {
-    httpPort = 8989
+    httpPort = new Integer(jettyHttpPort)
     reload = 'automatic'
-    scanIntervalSeconds = 3
+    scanIntervalSeconds = new Integer(jettyScanIntervalSeconds)
     daemon = false
+    doFirst {
+        // use the default port of the ws-backend-simulation module
+        System.setProperty('archaius.deployment.applicationId', rootProject.name)
+    System.setProperty('archaius.deployment.environment', 'dev')
+
+        // we only use jettyRun in dev... might as well output log4j debug
+        System.setProperty('log4j.debug', 'true')
+    }
 }
