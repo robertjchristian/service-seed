@@ -1,33 +1,39 @@
-
+apply plugin: 'war'
+apply plugin: 'jetty'
+apply plugin: 'cargo'
 
 // set base name (impacts war name and context path)
-project.war.baseName = "hello-world"
+project.war.baseName = 'hello-world'
 
 // Establish version and status
-ext.githubProjectName = rootProject.name 
+ext.githubProjectName = rootProject.name // Change if github project name is not the same as the root project's name
 
 buildscript {
     repositories { mavenCentral() }
+    apply from: file('../gradle/buildscript.gradle'), to: buildscript
     dependencies {
         classpath 'org.gradle.api.plugins:gradle-cargo-plugin:0.6'
     }
-    
-    apply from: file('../gradle/buildscript.gradle'), to: buildscript
 }
 
 allprojects {
     repositories { mavenCentral() }
 }
 
-apply plugin: 'war'
-apply plugin: 'cargo'
-apply plugin: 'jetty'
+apply from: file('../gradle/convention.gradle')
+apply from: file('../gradle/maven.gradle')
+apply from: file('../gradle/check.gradle')
+apply from: file('../gradle/license.gradle')
+
+war {
+    from('resources') {
+        include '*.properties'
+        into 'WEB-INF/classes/'
+    }
+    webXml = file('src/main/webapp/WEB-INF/web.xml')
+}
 
 dependencies {
-    // ************************************* beg cargo *********************************************
-    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
-            "org.codehaus.cargo:cargo-ant:$cargoVersion"
-    // ************************************* end cargo *********************************************
 
     // before moving to log4j2, need to fix
     // compatibility issue with custom audit appender
@@ -43,14 +49,11 @@ dependencies {
     compile "com.netflix.karyon:karyon-extensions:${karyonVersion}"
     compile project(':karyon-admin-web')
     compile project(':service-framework')
-}
 
-war {
-    from('resources') {
-        include '*.properties'
-        into 'WEB-INF/classes/'
-    }
-    webXml = file('src/main/webapp/WEB-INF/web.xml')
+    // ************************************* beg cargo *********************************************
+    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+            "org.codehaus.cargo:cargo-ant:$cargoVersion"
+    // ************************************* end cargo *********************************************
 }
 
 cargo {
@@ -60,23 +63,23 @@ cargo {
     deployable{
         // NOTE: Override file to make it pick up an existing war instead of that produce by running other tasks
         //        file = file('target/contivo-conversion-service-0.0.1.war')
-        context = 'jaxrs-service'
+        context = project.war.baseName
 
         // wait on this URL before continuing
-        def pingURL = "http://localhost:${tomcatHttpPort}/jaxrs-service/hello/echo/SierraTangoNevada"
+        def pingURL = "http://localhost:${tomcatHttpPort}/${project.war.baseName}/v1/hello/to/world"
     }
 
     local {
-// NOTE: uncomment following line to use existing tomcat install
-//        homeDir = file('/Library/Tomcat') // TODO should be set from CATALINA_HOME
-        output = file('build/output.log')
+        // NOTE: uncomment following line to use existing tomcat install
+        // homeDir = file('/Library/Tomcat')    // TODO should be set from CATALINA_HOME
+        output = file('build/tomcat-out.log')
 
-//TODO INTALL OUTSIDE OF BUILDDIR... SO CLEAN DOESN'T KILL TOMCAT INSTALL UNLESS EXPLICITLY TOLD TO DO SO.
-         installer {
-                installUrl = "http://apache.osuosl.org/tomcat/tomcat-7/v${tomcatVersion}/bin/apache-tomcat-${tomcatVersion}.zip"
-                downloadDir = file("$buildDir/download") 
-                extractDir = file("$buildDir/extract")
-            }
+        // TODO INTALL OUTSIDE OF BUILDDIR... SO CLEAN DOESN'T KILL TOMCAT INSTALL UNLESS EXPLICITLY TOLD TO DO SO.
+        installer {
+            installUrl = "http://apache.osuosl.org/tomcat/tomcat-7/v${tomcatVersion}/bin/apache-tomcat-${tomcatVersion}.zip"
+            downloadDir = file("$buildDir/download") 
+            extractDir = file("$buildDir/extract")
+        }
 
         tomcat {
             ajpPort = new Integer(tomcatAjpPort)
@@ -96,9 +99,16 @@ cargo {
         
         logger.info "=====jvmArgs===="
         logger.info "$jvmArgs"
-
     }
-    
+}
+
+jettyRun.doFirst {
+    // use the default port of the ws-backend-simulation module
+    System.setProperty('archaius.deployment.applicationId', project.war.baseName)
+    System.setProperty('archaius.deployment.environment', 'dev')
+
+    // we only use jettyRun in dev... might as well output log4j debug
+    System.setProperty('log4j.debug', 'true')
 }
 
 jettyRun {
@@ -106,12 +116,4 @@ jettyRun {
     reload = 'automatic'
     scanIntervalSeconds = new Integer(jettyScanIntervalSeconds)
     daemon = false
-    doFirst {
-        // use the default port of the ws-backend-simulation module
-        System.setProperty('archaius.deployment.applicationId', rootProject.name)
-    System.setProperty('archaius.deployment.environment', 'dev')
-
-        // we only use jettyRun in dev... might as well output log4j debug
-        System.setProperty('log4j.debug', 'true')
-    }
 }
