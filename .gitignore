@@ -1,10 +1,8 @@
 # Don't commit logs or build/deploy artifacts #
 ###############################################
-com.liaison.service-implementation/build/
+
 # and for now don't commit changes to tomcat at all... something is getting corrupted
-apache-tomcat-7.0.39
-apache-tomcat-*/logs/**
-apache-tomcat-*/webapps/**
+apache-tomcat-*
 
 # Compiled source #
 ###################
@@ -30,6 +28,7 @@ apache-tomcat-*/webapps/**
 # Logs and databases #
 ######################
 *.log
+*.ser
 
 # OS generated files #
 ######################
@@ -69,5 +68,4 @@ atlassian-ide-plugin.xml
 # NetBeans specific files/directories
 .nbattrs
 
-*.class
-*.log
+
