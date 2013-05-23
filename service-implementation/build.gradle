@@ -30,6 +30,12 @@ war {
         include '*.properties'
         into 'WEB-INF/classes/'
     }
+
+    from('../service-framework/src/main/resources') {
+        include '**/**';
+        into 'WEB-INF/classes/'
+    }
+
     webXml = file('src/main/webapp/WEB-INF/web.xml')
 }
 
