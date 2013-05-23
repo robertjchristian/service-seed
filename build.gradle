@@ -1,38 +1,28 @@
 /*
- * Copyright 2013 Netflix, Inc.
+ * Copyright 2013 Liaison Technologies
  *
- *      Licensed under the Apache License, Version 2.0 (the "License");
- *      you may not use this file except in compliance with the License.
- *      You may obtain a copy of the License at
+ * Root Project 
+ * A RESTful Service Seed
  *
- *          http://www.apache.org/licenses/LICENSE-2.0
- *
- *      Unless required by applicable law or agreed to in writing, software
- *      distributed under the License is distributed on an "AS IS" BASIS,
- *      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *      See the License for the specific language governing permissions and
- *      limitations under the License.
  */
 
 // Establish version and status
 ext.githubProjectName = rootProject.name // Change if github project name is not the same as the root project's name
 
 buildscript {
-    repositories { mavenCentral() }
+    repositories {
+        mavenCentral() // maven { url 'http://jcenter.bintray.com' }
+    }
     apply from: file('gradle/buildscript.gradle'), to: buildscript 
 }
 
 allprojects {
     repositories { 
-        mavenCentral() 
+        mavenCentral() // maven { url: 'http://jcenter.bintray.com' }
         maven { url releasesArtifactRepoURL }
         maven { url snapshotsArtifactRepoURL }
     }
-<<<<<<< HEAD
-=======
-
     group = 'com.liaison.seed'
->>>>>>> ba1fcd6... added jvm parameters for archaius support in cargo and rm repo properties
 }
 
 apply from: file('gradle/convention.gradle')
@@ -41,35 +31,41 @@ apply from: file('gradle/check.gradle')
 apply from: file('gradle/license.gradle')
 apply from: file('gradle/release.gradle')
 
-apply plugin: 'java'
+apply plugin: 'maven'
 
 subprojects {
-
-    group = "com.netflix.${githubProjectName}" // TEMPLATE: Set to organization of project
-
-    dependencies {
-        compile 'log4j:log4j:1.2.15'
-        compile 'com.netflix.blitz4j:blitz4j:1.23'
-        compile 'org.slf4j:slf4j-api:1.6.4'
-        compile 'com.google.guava:guava:11.0.2'
-        compile 'javax.ws.rs:jsr311-api:1.1.1'
-        testCompile 'junit:junit:4.10'
-        testRuntime 'org.slf4j:slf4j-simple:1.7.0'
+    test {
+        // workaround for Java7 and Cobutura/Emma instrumentation problem
+        jvmArgs "-XX:-UseSplitVerifier"	
     }
 }
 
 project(':karyon-admin') {
     dependencies {
-        compile "com.netflix.karyon:karyon-core:${karyonVersion}"
-        compile 'org.eclipse.jetty:jetty-server:7.6.7.v20120910'
-        compile 'org.eclipse.jetty:jetty-servlet:7.6.7.v20120910'
-        compile 'com.sun.jersey.contribs:jersey-guice:1.8'
+        compile     "com.netflix.karyon:karyon-core:${karyonVersion}"
+        compile     'org.eclipse.jetty:jetty-server:7.6.7.v20120910'
+        compile     'org.eclipse.jetty:jetty-servlet:7.6.7.v20120910'
+        compile     'com.google.inject.extensions:guice-servlet:2.0'
+        compile     'com.google.guava:guava:11.0.2'
+        compile     'com.sun.jersey.contribs:jersey-guice:1.8'
+        compile     'javax.ws.rs:jsr311-api:1.1.1'
+        compile     'com.sun.jersey:jersey-core:1.11'
+        compile     'org.slf4j:slf4j-simple:1.7.0'
+        compile     'com.netflix.blitz4j:blitz4j:1.29'
+        testCompile 'org.testng:testng:6.8'
+        testCompile 'junit:junit:4.10'
     }
 }
 
 project(':karyon-admin-web') {
     dependencies {
-        compile project(':karyon-admin')
-        compile 'com.google.code.gson:gson:2.1'
+        compile     project(':karyon-admin')
+        compile     'com.google.code.gson:gson:2.1'
+        compile     'com.google.guava:guava:11.0.2'
+        compile     'javax.ws.rs:jsr311-api:1.1.1'
+        compile     'com.sun.jersey:jersey-core:1.11'
+        compile     'org.slf4j:slf4j-simple:1.7.0'
+        testCompile 'org.testng:testng:6.8'
+        testCompile 'junit:junit:4.10'
     }
 }
