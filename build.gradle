@@ -23,7 +23,7 @@ allprojects {
         maven { url snapshotsArtifactRepoURL }
     }
 
-    group = 'com.liaison.key.management'
+    group = 'com.liaison.seed'
 }
 
 apply from: file('gradle/convention.gradle')

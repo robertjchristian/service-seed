@@ -31,6 +31,7 @@ war {
         into 'WEB-INF/classes/'
     }
 
+    // TODO this should be in jar (remove))
     from('../service-framework/src/main/resources') {
         include '**/**';
         into 'WEB-INF/classes/'
@@ -80,9 +81,9 @@ cargo {
     local {
         // NOTE: uncomment following line to use existing tomcat install
         // homeDir = file('/Library/Tomcat')    // TODO should be set from CATALINA_HOME
-        output = file('build/tomcat-out.log')
+        //output = file('build/tomcat-out.log')
 
-        // TODO INTALL OUTSIDE OF BUILDDIR... SO CLEAN DOESN'T KILL TOMCAT INSTALL UNLESS EXPLICITLY TOLD TO DO SO.
+        // TODO INSTALL OUTSIDE OF BUILDDIR... SO CLEAN DOESN'T KILL TOMCAT INSTALL UNLESS EXPLICITLY TOLD TO DO SO.
         installer {
             installUrl = "http://apache.osuosl.org/tomcat/tomcat-7/v${tomcatVersion}/bin/apache-tomcat-${tomcatVersion}.zip"
             downloadDir = file("$buildDir/download") 
@@ -96,8 +97,7 @@ cargo {
         if(containerJVMArgs) {
             jvmArgs = "$containerJVMArgs"        
         } else {
-            // set contivo paths
-            jvmArgs = ''
+            jvmArgs = "-Darchaius.deployment.applicationId=${project.war.baseName} -Darchaius.deployment.environment=dev"
         }
            
         // if containerDebug, append tomcat debug args to jvm args
