@@ -19,9 +19,31 @@ allprojects {
     repositories { mavenCentral() }
 }
 
+<<<<<<< HEAD
 apply plugin: 'war'
 apply plugin: 'cargo'
 apply plugin: 'jetty'
+=======
+apply from: file('../gradle/convention.gradle')
+apply from: file('../gradle/maven.gradle')
+apply from: file('../gradle/check.gradle')
+apply from: file('../gradle/license.gradle')
+
+war {
+    from('resources') {
+        include '*.properties'
+        into 'WEB-INF/classes/'
+    }
+
+    // TODO this should be in jar (remove))
+    from('../service-framework/src/main/resources') {
+        include '**/**';
+        into 'WEB-INF/classes/'
+    }
+
+    webXml = file('src/main/webapp/WEB-INF/web.xml')
+}
+>>>>>>> ba1fcd6... added jvm parameters for archaius support in cargo and rm repo properties
 
 dependencies {
     // ************************************* beg cargo *********************************************
@@ -67,6 +89,7 @@ cargo {
     }
 
     local {
+<<<<<<< HEAD
 // NOTE: uncomment following line to use existing tomcat install
 //        homeDir = file('/Library/Tomcat') // TODO should be set from CATALINA_HOME
         output = file('build/output.log')
@@ -77,6 +100,18 @@ cargo {
                 downloadDir = file("$buildDir/download") 
                 extractDir = file("$buildDir/extract")
             }
+=======
+        // NOTE: uncomment following line to use existing tomcat install
+        // homeDir = file('/Library/Tomcat')    // TODO should be set from CATALINA_HOME
+        //output = file('build/tomcat-out.log')
+
+        // TODO INSTALL OUTSIDE OF BUILDDIR... SO CLEAN DOESN'T KILL TOMCAT INSTALL UNLESS EXPLICITLY TOLD TO DO SO.
+        installer {
+            installUrl = "http://apache.osuosl.org/tomcat/tomcat-7/v${tomcatVersion}/bin/apache-tomcat-${tomcatVersion}.zip"
+            downloadDir = file("$buildDir/download") 
+            extractDir = file("$buildDir/extract")
+        }
+>>>>>>> ba1fcd6... added jvm parameters for archaius support in cargo and rm repo properties
 
         tomcat {
             ajpPort = new Integer(tomcatAjpPort)
@@ -85,8 +120,12 @@ cargo {
         if(containerJVMArgs) {
             jvmArgs = "$containerJVMArgs"        
         } else {
+<<<<<<< HEAD
             // set contivo paths
             jvmArgs = "-Dcontivo.runtime.classpath=$buildDir/classpath -Dcontivo.runtime.map.root=$buildDir/../src/test/resources/data"
+=======
+            jvmArgs = "-Darchaius.deployment.applicationId=${project.war.baseName} -Darchaius.deployment.environment=dev"
+>>>>>>> ba1fcd6... added jvm parameters for archaius support in cargo and rm repo properties
         }
            
         // if containerDebug, append tomcat debug args to jvm args

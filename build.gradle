@@ -28,6 +28,11 @@ allprojects {
         maven { url releasesArtifactRepoURL }
         maven { url snapshotsArtifactRepoURL }
     }
+<<<<<<< HEAD
+=======
+
+    group = 'com.liaison.seed'
+>>>>>>> ba1fcd6... added jvm parameters for archaius support in cargo and rm repo properties
 }
 
 apply from: file('gradle/convention.gradle')
