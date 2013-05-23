@@ -2,7 +2,7 @@
  * Copyright 2013 Liaison Technologies
  *
  * Root Project 
- * A RESTful Service Seed
+ * A RESTful Service Seed - see https://github.com/robertjchristian/service-seed
  *
  */
 
@@ -40,6 +40,15 @@ subprojects {
     }
 }
 
+/*
+ * karyin-admin provides rest services that expose administrative data
+ * like configuration properties, classes/jars loaded, jmx properties, etc
+ *
+ * note:  word has it that Netflix is supposed to release a much richer version
+ * of this by 7/13... should hold off on "nice-to-haves" until the new version
+ * comes out...
+ *
+ */
 project(':karyon-admin') {
     dependencies {
         compile     "com.netflix.karyon:karyon-core:${karyonVersion}"
@@ -57,6 +66,9 @@ project(':karyon-admin') {
     }
 }
 
+/*
+ * karyon-admin-web puts a pretty face (webapp) on karyon-admin
+ */
 project(':karyon-admin-web') {
     dependencies {
         compile     project(':karyon-admin')

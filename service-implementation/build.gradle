@@ -26,12 +26,17 @@ apply from: file('../gradle/check.gradle')
 apply from: file('../gradle/license.gradle')
 
 war {
+
     from('resources') {
         include '*.properties'
         into 'WEB-INF/classes/'
     }
 
-    // TODO this should be in jar (remove))
+    // TODO
+    // Resources used for the Dynamic Services landing page are intentionally kept in the
+    // service-framework module (where dynamic services framework is also defined), and
+    // outside of the service-implementation.  Eventually the service-framework will be an
+    // artifact, and we will be unable to pull in resources like this.
     from('../service-framework/src/main/resources') {
         include '**/**';
         into 'WEB-INF/classes/'
@@ -42,15 +47,10 @@ war {
 
 dependencies {
 
-    // before moving to log4j2, need to fix
-    // compatibility issue with custom audit appender
-    // logging dependencies based on
-    // http://logging.apache.org/log4j/2.x/log4j-slf4j-impl/dependencies.html
-    //compile "org.apache.logging.log4j:log4j-api:2.0-beta6"
-    //compile "org.slf4j:slf4j-api:1.7.2"
-    //compile "org.slf4j:slf4j-ext:1.7.2"
+    // logging dependencies... not sure why netflix includes the slf4j-simple binding here,
+    // some additional context here:  https://github.com/Netflix/karyon/issues/34
 
-    compile 'log4j:log4j:1.2.17'    
+    compile 'log4j:log4j:1.2.17'
     compile 'org.slf4j:slf4j-api:1.7.0'
     runtime 'org.slf4j:slf4j-simple:1.7.0'
 
@@ -65,6 +65,8 @@ dependencies {
     // ************************************* end cargo *********************************************
 }
 
+// Cargo is a thin wrapper that allows you to manipulate Java EE containers in a standard way.
+// http://cargo.codehaus.org/
 cargo {
     containerId = 'tomcat7x'
     port = new Integer(tomcatHttpPort)
@@ -90,10 +92,10 @@ cargo {
             extractDir = file("$buildDir/extract")
         }
 
-        tomcat {
+       tomcat {
             ajpPort = new Integer(tomcatAjpPort)
         }
-         
+
         if(containerJVMArgs) {
             jvmArgs = "$containerJVMArgs"        
         } else {
@@ -110,6 +112,7 @@ cargo {
     }
 }
 
+// set properties before starting Jetty (via jettyRun or jettyRunWar)
 jettyRun.doFirst {
     // use the default port of the ws-backend-simulation module
     System.setProperty('archaius.deployment.applicationId', project.war.baseName)
@@ -119,6 +122,7 @@ jettyRun.doFirst {
     System.setProperty('log4j.debug', 'true')
 }
 
+// jettyRun configuration properties
 jettyRun {
     httpPort = new Integer(jettyHttpPort)
     reload = 'automatic'
