@@ -49,6 +49,7 @@ dependencies {
     //compile "org.slf4j:slf4j-api:1.7.2"
     //compile "org.slf4j:slf4j-ext:1.7.2"
 
+    compile 'log4j:log4j:1.2.17'    
     compile 'org.slf4j:slf4j-api:1.7.0'
     runtime 'org.slf4j:slf4j-simple:1.7.0'
 
@@ -57,6 +58,7 @@ dependencies {
     compile project(':service-framework')
 
     // ************************************* beg cargo *********************************************
+    def cargoVersion = "1.4.0"
     cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
             "org.codehaus.cargo:cargo-ant:$cargoVersion"
     // ************************************* end cargo *********************************************
@@ -95,7 +97,7 @@ cargo {
             jvmArgs = "$containerJVMArgs"        
         } else {
             // set contivo paths
-            jvmArgs = "-Dcontivo.runtime.classpath=$buildDir/classpath -Dcontivo.runtime.map.root=$buildDir/../src/test/resources/data"
+            jvmArgs = ''
         }
            
         // if containerDebug, append tomcat debug args to jvm args
