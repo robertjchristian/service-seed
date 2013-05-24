@@ -15,41 +15,33 @@
  */
 
 subprojects {
-    // Checkstyle
-    apply plugin: 'checkstyle'
-    tasks.withType(Checkstyle) { ignoreFailures = true }
-    checkstyle {
-        ignoreFailures = true // Waiting on GRADLE-2163
-        configFile = rootProject.file('codequality/checkstyle.xml')
-    }
+    if (project.hasProperty('codeCheck')) {
+        apply plugin: 'checkstyle'
+        apply plugin: 'findbugs'
+        apply plugin: 'pmd'
 
-    // FindBugs
-    apply plugin: 'findbugs'
-    tasks.withType(FindBugs) { 
-        reports.html.enabled true 
-        reports.xml.enabled false
-    }
+        // Checkstyle
+        checkstyle {
+            ignoreFailures = true 
+            configFile = rootProject.file('codequality/checkstyle.xml')
+        }
 
-    // Ignore failures for now, reporting should be sufficient.
-    // In the near-term, introduce annotations and IDE plugins
-    // so that failures are easier to deal with.
-    findbugs {       
-        effort = "min"
-        ignoreFailures = true       
-    }
+        // FindBugs
+        findbugs {
+            ignoreFailures = true
+        }
 
-    // PMD
-    apply plugin: 'pmd'
-    tasks.withType(Pmd) { 
-        reports.html.enabled true 
-        reports.xml.enabled false
+        // PMD
+        //tasks.withType(Pmd) { reports.html.enabled true }
     }
-
-    apply plugin: 'cobertura'
-    cobertura {
-        sourceDirs = sourceSets.main.java.srcDirs
-        format = 'html'
-        includes = ['**/*.java', '**/*.groovy']
-        excludes = []
+    
+    if (project.hasProperty('codeCoverage')) {
+        apply plugin: 'cobertura'
+        cobertura {
+            sourceDirs = sourceSets.main.java.srcDirs
+            format = 'html'
+            includes = ['**/*.java', '**/*.groovy']
+            excludes = []
+        }
     }
 }
