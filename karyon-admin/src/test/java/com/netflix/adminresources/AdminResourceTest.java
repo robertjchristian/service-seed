@@ -41,6 +41,7 @@ public class AdminResourceTest {
     @Before
     public void setUp() throws Exception {
         System.setProperty(PropertyNames.SERVER_BOOTSTRAP_BASE_PACKAGES_OVERRIDE, "com.test");
+        System.setProperty(PropertyNames.HEALTH_CHECK_TIMEOUT_MILLIS, "5000");
         System.setProperty(PropertyNames.DISABLE_EUREKA_INTEGRATION, "true");
     }
 
@@ -57,22 +58,31 @@ public class AdminResourceTest {
         HttpClient client = new DefaultHttpClient();
         HttpGet healthGet = new HttpGet("http://localhost:" + AdminResourcesContainer.LISTEN_PORT_DEFAULT + "/healthcheck");
 
+        HttpResponse response = doBasicTestHack(client, healthGet, 3);
+        
+        Assert.assertEquals("admin resource health check failed.", 200, response.getStatusLine().getStatusCode());
+    }
+
+    // HACK! to get around the fact that startServer() does not wait until the server is up
+    protected HttpResponse doBasicTestHack(HttpClient client, HttpGet healthGet, int retries) throws Exception {
+    	if (retries < 0) {
+    		throw new Exception("Failed to connect. Retries exceeded.");
+    	}
+    	
         HttpResponse response = null;
         try {
             response = client.execute(healthGet);
         } catch (HttpHostConnectException e) {
-            Thread.sleep(1000);  // HACK!
+            Thread.sleep(1000); 
             try {
                 response = client.execute(healthGet);
             } catch (HttpHostConnectException e2) {
-                throw e;
+                response = doBasicTestHack(client, healthGet, --retries);
             }
-
-        }
-
-        Assert.assertEquals("admin resource health check failed.", 200, response.getStatusLine().getStatusCode());
+        }   
+        return response;
     }
-
+    
     @Test(expected = HttpHostConnectException.class)
     public void testCustomPort() throws Exception {
         ConfigurationManager.getConfigInstance().setProperty(AdminResourcesContainer.CONTAINER_LISTEN_PORT, CUSTOM_LISTEN_PORT);
