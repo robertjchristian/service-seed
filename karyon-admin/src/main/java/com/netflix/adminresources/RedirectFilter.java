@@ -28,7 +28,7 @@ import java.io.IOException;
 
 /**
  * A {@link javax.servlet.Filter} implementation to redirect root requests to a default location as specified by
- * the com.liaison.framework.dynamic property {@link AdminResourcesContainer#DEFAULT_PAGE}
+ * the dynamic property {@link AdminResourcesContainer#DEFAULT_PAGE}
  *
  * @author pkamath
  * @author Nitesh Kant
