@@ -85,7 +85,7 @@ This project is going to be in flux for the foreseeable future (see roadmap).
 Adding service-seed as a remote tracking branch is a low cost and easy way to pick up changes. It's recommended to do something like:
 
 <pre>
-git remote add --track multi-project service-seed git@github.com:robertjchristian/service-seed.git
+git remote add --track master service-seed git@github.com:robertjchristian/service-seed.git
 git fetch service-seed
 git merge service-seed/master
 </pre>
