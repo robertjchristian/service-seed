@@ -1,6 +1,0 @@
-// Copyright 2013 Liaison Technologies
-
-rootProject.name='hello-world'
-
-// include these sub-modules
-include 'karyon-admin', 'karyon-admin-web', 'service-framework', 'service-implementation'
